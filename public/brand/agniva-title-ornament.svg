@@ -1,0 +1,80 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="420"
+  height="38"
+  viewBox="0 0 420 38"
+  fill="none"
+>
+  <g
+    stroke="#ED1C24"
+    stroke-width="2"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+  >
+    <!-- LEFT -->
+    <path d="
+      M0 19
+      H28
+      L36 14
+      L44 19
+      L53 11
+      L63 19
+      H77
+      L86 13
+      L95 19
+      L105 10
+      L116 19
+      H128
+      L136 14
+      L145 19
+      L154 12
+      L164 19
+      H174
+    "/>
+
+    <!-- RIGHT -->
+    <path d="
+      M246 19
+      H256
+      L266 12
+      L275 19
+      L284 14
+      L292 19
+      H304
+      L315 10
+      L325 19
+      L334 13
+      L343 19
+      H357
+      L367 11
+      L376 19
+      L385 14
+      L393 19
+      H420
+    "/>
+
+    <!-- CENTER DIAMOND -->
+    <rect
+      x="198"
+      y="7"
+      width="24"
+      height="24"
+      transform="rotate(45 210 19)"
+    />
+
+    <rect
+      x="204"
+      y="13"
+      width="12"
+      height="12"
+      transform="rotate(45 210 19)"
+    />
+  </g>
+
+  <circle
+    cx="210"
+    cy="19"
+    r="2.8"
+    fill="#ED1C24"
+  />
+</svg>

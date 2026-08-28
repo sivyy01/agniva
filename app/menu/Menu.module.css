@@ -1,0 +1,1621 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  padding:
+    118px clamp(24px, 4vw, 72px)
+    38px;
+
+  color: #f5f5f3;
+
+  background:
+    radial-gradient(
+      circle at 50% 75%,
+      rgba(118, 5, 12, 0.08),
+      transparent 38%
+    ),
+    #050505;
+}
+
+/* =========================
+   TOP ORNAMENT
+   ========================= */
+.page::before {
+  content: "";
+
+  position: absolute;
+  z-index: 30;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 20px;
+
+  background:
+    url("/brand/agniva-top-pattern.svg")
+    left top / auto 20px
+    repeat-x;
+
+  pointer-events: none;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+  position: relative;
+  z-index: 20;
+
+  width: 100%;
+  max-width: 1420px;
+
+  min-height: 118px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    230px
+    1fr
+    auto;
+
+  align-items: center;
+
+  gap: 34px;
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+.logo {
+  display: block;
+  width: 205px;
+}
+
+.logo img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  filter:
+    brightness(0)
+    invert(1);
+
+  opacity: 0.94;
+}
+
+.nav {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap:
+    clamp(24px, 2.8vw, 48px);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size:
+    clamp(10px, 0.72vw, 13px);
+
+  font-weight: 500;
+
+  letter-spacing:
+    0.025em;
+
+  white-space: nowrap;
+}
+
+.nav a {
+  position: relative;
+
+  padding:
+    42px 0
+    36px;
+
+  color:
+    rgba(245, 245, 243, 0.74);
+
+  text-decoration: none;
+
+  transition:
+    color 180ms ease;
+}
+
+.nav a:hover {
+  color: #ffffff;
+}
+
+.nav a.active {
+  color: #ed1c24;
+}
+
+.nav a.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 24px;
+
+  width: 26px;
+  height: 2px;
+
+  transform:
+    translateX(-50%);
+
+  background: #ed1c24;
+}
+
+.booking {
+  min-height: 48px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0 24px;
+
+  border:
+    1px solid
+    rgba(237, 28, 36, 0.78);
+
+  color: #ed1c24;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing:
+    0.07em;
+
+  text-decoration: none;
+
+  transition:
+    color 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.booking:hover {
+  color: #ffffff;
+
+  background:
+    rgba(237, 28, 36, 0.12);
+
+  box-shadow:
+    0 0 24px
+    rgba(237, 28, 36, 0.08);
+}
+
+/* =========================
+   INTRO
+   ========================= */
+
+.intro {
+  width: 100%;
+  max-width: 1420px;
+
+  margin:
+    28px auto 0;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 60px;
+}
+
+.intro h1 {
+  margin: 0;
+
+  color: #f2f1ee;
+
+  font-family:
+    var(--font-hero),
+    sans-serif;
+
+  font-size:
+    clamp(48px, 4.2vw, 72px);
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing:
+    0.12em;
+}
+
+.tabs {
+  display: flex;
+
+  align-items: center;
+
+  gap:
+    clamp(26px, 3vw, 46px);
+
+  margin-top: 28px;
+}
+
+.tabs button {
+  position: relative;
+
+  appearance: none;
+
+  padding:
+    0 0 12px;
+
+  border: 0;
+
+  background: none;
+
+  color:
+    rgba(245, 245, 243, 0.46);
+
+  cursor: pointer;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  letter-spacing:
+    0.08em;
+
+  transition:
+    color 180ms ease;
+}
+
+.tabs button:hover {
+  color:
+    rgba(245, 245, 243, 0.9);
+}
+
+.tabs .tabActive {
+  color: #ed1c24;
+}
+
+.tabs .tabActive::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 30px;
+  height: 2px;
+
+  background: #ed1c24;
+}
+
+
+/* =========================
+   DESKTOP SUBCATEGORY NAV
+   ========================= */
+
+@media (min-width: 761px) {
+  /*
+   * Верхние вкладки ВСЕ / КУХНЯ /
+   * БАР / ДЫМНАЯ КУЛЬТУРА находятся
+   * внутри .intro и остаются как есть.
+   *
+   * Эти правила применяются только
+   * к дополнительным уровням категорий,
+   * которые выводятся прямыми детьми .page.
+   */
+  .page > .tabs {
+    width: fit-content;
+    max-width: 1420px;
+
+    margin:
+      30px auto 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+
+    gap: 1px;
+
+    padding: 1px;
+
+    border:
+      1px solid
+      rgba(255, 255, 255, 0.08);
+
+    background:
+      rgba(255, 255, 255, 0.035);
+
+    box-shadow:
+      inset 0 1px 0
+      rgba(255, 255, 255, 0.018);
+  }
+
+  .page > .tabs button {
+    position: relative;
+
+    min-height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    padding:
+      0 18px;
+
+    border: 0;
+
+    background:
+      #080808;
+
+    color:
+      rgba(245, 245, 243, 0.52);
+
+    font-family:
+      var(--font-manrope),
+      sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    line-height: 1.2;
+
+    letter-spacing:
+      0.055em;
+
+    white-space: nowrap;
+
+    transition:
+      color 180ms ease,
+      background 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .page > .tabs button:hover {
+    color:
+      rgba(255, 255, 255, 0.94);
+
+    background:
+      rgba(255, 255, 255, 0.045);
+  }
+
+  .page > .tabs .tabActive {
+    color: #ffffff;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(237, 28, 36, 0.17),
+        rgba(237, 28, 36, 0.07)
+      );
+
+    box-shadow:
+      inset 0 -2px 0
+      #ed1c24;
+  }
+
+  .page > .tabs .tabActive::after {
+    display: none;
+  }
+}
+
+.philosophy {
+  width:
+    min(330px, 28vw);
+
+  padding-top: 8px;
+}
+
+.philosophy p {
+  margin: 0;
+
+  color:
+    rgba(245, 245, 243, 0.46);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 12px;
+
+  line-height: 1.55;
+}
+
+.philosophy a {
+  display: inline-flex;
+
+  margin-top: 18px;
+
+  color: #ed1c24;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing:
+    0.06em;
+
+  text-decoration: none;
+}
+
+/* =========================
+   MENU GRID
+   ========================= */
+
+.menuGrid {
+  width: 100%;
+  max-width: 1420px;
+
+  margin:
+    32px auto 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap:
+    clamp(18px, 2vw, 32px);
+}
+.menuGridFiltered {
+  grid-template-columns: 1fr;
+}
+
+.menuGridFiltered .column {
+  width: 100%;
+}
+
+.menuGridFiltered .cards {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 8px;
+}
+
+.column {
+  min-width: 0;
+  animation: menuReveal 280ms ease both;
+}
+
+.columnHeader {
+  min-height: 42px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+}
+
+.columnTitle {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.columnTitle h2 {
+  margin: 0;
+
+  color:
+    rgba(245, 245, 243, 0.86);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size:
+    clamp(13px, 1vw, 16px);
+
+  font-weight: 500;
+
+  letter-spacing:
+    0.11em;
+
+  white-space: nowrap;
+}
+.columnIcon {
+  position: relative;
+  display: block;
+
+  width: 22px;
+  height: 22px;
+
+  flex: 0 0 22px;
+
+  color: #ed1c24;
+}
+
+/* КУХНЯ — двойной ромб */
+.icon-kitchen {
+  width: 17px;
+  height: 17px;
+
+  margin-left: 2px;
+
+  border: 2px solid #ed1c24;
+
+  transform: rotate(45deg);
+}
+
+.icon-kitchen::before {
+  content: "";
+
+  position: absolute;
+  inset: 3px;
+
+  border: 1px solid #ed1c24;
+}
+
+.icon-kitchen::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 3px;
+  height: 3px;
+
+  background: #ed1c24;
+
+  transform: translate(-50%, -50%);
+}
+.icon-bar {
+  width: 22px;
+  height: 22px;
+
+  background:
+    url("/brand/icon-bar.svg")
+    center / contain
+    no-repeat;
+}
+
+/* ДЫМНАЯ КУЛЬТУРА — три волны */
+.icon-smoke::before {
+  content: "≋";
+
+  position: absolute;
+
+  left: 0;
+  top: -7px;
+
+  color: #ed1c24;
+
+  font-family: sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+
+  line-height: 1;
+}
+
+.viewAll {
+  appearance: none;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: #ed1c24;
+
+  cursor: pointer;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  letter-spacing:
+    0.04em;
+
+  white-space: nowrap;
+}
+
+/* =========================
+   CARDS
+   ========================= */
+
+.cards {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+.card {
+  position: relative;
+  min-height: 112px;
+
+  display: grid;
+  grid-template-columns: 138px minmax(0, 1fr);
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(255, 255, 255, 0.028) 0%,
+      rgba(255, 255, 255, 0.008) 55%,
+      rgba(237, 28, 36, 0.012) 100%
+    ),
+    #080808;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.018);
+
+  transition:
+    transform 260ms ease,
+    border-color 260ms ease,
+    background 260ms ease,
+    box-shadow 260ms ease;
+}
+
+.card::before {
+  content: "";
+
+  position: absolute;
+  z-index: 4;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 2px;
+
+  background: #ed1c24;
+
+  opacity: 0;
+
+  transform: scaleY(0.25);
+
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(237, 28, 36, 0.42);
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(255, 255, 255, 0.038) 0%,
+      rgba(237, 28, 36, 0.025) 70%,
+      rgba(237, 28, 36, 0.055) 100%
+    ),
+    #090909;
+
+  box-shadow:
+    0 8px 26px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.card:hover::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+.cardImage {
+  position: relative;
+  min-height: 112px;
+  overflow: hidden;
+  background: #0b0b0b;
+}
+
+.cardImage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 45%,
+      rgba(8, 8, 8, 0.26) 72%,
+      rgba(8, 8, 8, 0.74) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.05),
+      rgba(0, 0, 0, 0.18)
+    );
+}
+
+.cardImage img {
+  object-fit: cover;
+
+  transition:
+    transform 420ms ease,
+    filter 420ms ease;
+
+  filter:
+    brightness(0.85)
+    contrast(1.06);
+}
+
+.card:hover .cardImage img {
+  transform: scale(1.035);
+
+  filter:
+    brightness(0.95)
+    contrast(1.06);
+}
+
+.cardContent {
+  position: relative;
+  z-index: 3;
+  min-width: 0;
+
+  padding: 14px 16px 15px 18px;
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardTop h3 {
+  min-width: 0;
+  margin: 0;
+
+  color: rgba(250, 250, 248, 0.92);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size:
+    clamp(12px, 0.95vw, 15px);
+
+  font-weight: 500;
+  line-height: 1.25;
+
+  transition: color 240ms ease;
+}
+
+.card:hover .cardTop h3 {
+  color: #ffffff;
+}
+
+.price {
+  flex: 0 0 auto;
+
+  color: #f5f5f3;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size:
+    clamp(11px, 0.9vw, 14px);
+
+  white-space: nowrap;
+}
+
+.meta {
+  display: block;
+  margin-top: 5px;
+
+  color: rgba(245, 245, 243, 0.42);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 10px;
+}
+
+.cardContent p {
+  max-width: 220px;
+
+  margin:
+    7px 28px
+    0 0;
+
+  color: rgba(245, 245, 243, 0.48);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size:
+    clamp(10px, 0.74vw, 12px);
+
+  line-height: 1.45;
+}
+
+.arrow {
+  position: absolute;
+
+  right: 15px;
+  bottom: 10px;
+
+  color: rgba(245, 245, 243, 0.38);
+
+  font-size: 18px;
+  line-height: 1;
+
+  transition:
+    color 240ms ease,
+    transform 240ms ease;
+}
+
+.card:hover .arrow {
+  color: #ed1c24;
+  transform: translateX(5px);
+}
+
+/* =========================
+   SIDE DECOR
+   ========================= */
+
+.page::after {
+  content: "";
+
+  position: fixed;
+
+  z-index: 1;
+
+  top: 18%;
+  right: -34px;
+
+  width: 80px;
+  height: 68vh;
+
+  opacity: 0.12;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 22px,
+      rgba(160, 160, 160, 0.55) 22px 30px,
+      transparent 30px 52px
+    );
+}
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 1180px) {
+  .header {
+    grid-template-columns:
+      180px
+      1fr
+      auto;
+
+    gap: 20px;
+  }
+
+  .logo {
+    width: 165px;
+  }
+
+  .nav {
+    gap: 20px;
+    font-size: 10px;
+  }
+
+  .booking {
+    padding: 0 16px;
+    font-size: 9px;
+  }
+
+  .menuGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .column:last-child {
+    grid-column: 1 / -1;
+    width: 50%;
+  }
+
+  .menuGridFiltered .column,
+  .menuGridFiltered .column:last-child {
+    grid-column: auto;
+    width: 100%;
+  }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 760px) {
+  .page {
+  padding:
+    104px 18px
+    28px;
+}
+
+  .page::before {
+  display: none;
+}
+  .header {
+    min-height: 82px;
+
+    display: flex;
+
+    justify-content:
+      space-between;
+
+    gap: 12px;
+  }
+
+  .logo {
+    width: 142px;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .booking {
+    min-height: 40px;
+
+    padding:
+      0 12px;
+
+    font-size: 8px;
+
+    letter-spacing:
+      0.03em;
+  }
+
+  .intro {
+    margin-top: 24px;
+
+    display: block;
+  }
+
+  .intro h1 {
+    font-size:
+      clamp(40px, 13vw, 58px);
+  }
+
+  .tabs {
+  width: 100%;
+
+  gap: 22px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  margin-top: 24px;
+
+  padding-right: 34px;
+  padding-bottom: 3px;
+
+  scrollbar-width: none;
+
+  -webkit-overflow-scrolling: touch;
+
+  -webkit-mask-image:
+    linear-gradient(
+      90deg,
+      #000 0%,
+      #000 calc(100% - 42px),
+      transparent 100%
+    );
+
+  mask-image:
+    linear-gradient(
+      90deg,
+      #000 0%,
+      #000 calc(100% - 42px),
+      transparent 100%
+    );
+}
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabs button {
+    flex: 0 0 auto;
+
+    font-size: 10px;
+  }
+
+  .philosophy {
+    display: none;
+  }
+
+  .menuGrid {
+    margin-top: 28px;
+
+    grid-template-columns: 1fr;
+
+    gap: 32px;
+  }
+
+  .menuGridFiltered .cards {
+  grid-template-columns: 1fr;
+}
+
+  .column:last-child {
+    grid-column: auto;
+
+    width: auto;
+  }
+
+  .columnHeader {
+    min-height: 34px;
+  }
+
+  .columnTitle h2 {
+    font-size: 13px;
+  }
+
+  .viewAll {
+    font-size: 8px;
+  }
+
+  .card {
+    min-height: 104px;
+
+    grid-template-columns:
+      112px
+      minmax(0, 1fr);
+  }
+
+  .cardImage {
+    min-height: 104px;
+  }
+
+  .cardContent {
+    padding:
+      12px 12px
+      13px 14px;
+  }
+
+  .cardTop h3 {
+    font-size: 12px;
+  }
+
+  .price {
+    font-size: 11px;
+  }
+
+  .cardContent p {
+    margin-top: 6px;
+
+    font-size: 10px;
+
+    line-height: 1.35;
+  }
+
+  .page::after {
+    display: none;
+  }
+}
+
+/* =========================
+   VERY SMALL MOBILE
+   ========================= */
+
+@media (max-width: 420px) {
+  .booking {
+    display: none;
+  }
+
+  .card {
+    grid-template-columns:
+      96px
+      minmax(0, 1fr);
+  }
+
+  .cardTop {
+    gap: 6px;
+  }
+
+  .cardContent p {
+    display: -webkit-box;
+
+    overflow: hidden;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.imagePlaceholder {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 70% 75%,
+      rgba(237, 28, 36, 0.22),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.035),
+      transparent 40%
+    ),
+    linear-gradient(
+      135deg,
+      #171717,
+      #090909 65%,
+      #120607
+    );
+}
+
+.imagePlaceholder::before {
+  content: "";
+
+  position: absolute;
+
+  width: 130%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(237, 28, 36, 0.4),
+      transparent
+    );
+
+  transform: rotate(-28deg);
+}
+
+.imagePlaceholder::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 110%,
+      rgba(237, 28, 36, 0.14),
+      transparent 48%
+    );
+}
+
+.imagePlaceholder span {
+  position: relative;
+  z-index: 1;
+
+  color:
+    rgba(245, 245, 243, 0.18);
+
+  font-family:
+    var(--font-hero),
+    sans-serif;
+
+  font-size: 12px;
+
+  letter-spacing: 0.18em;
+}
+
+/* =========================
+   BRAND BANNER
+   ========================= */
+
+.brandBanner {
+  position: relative;
+
+  width: 100%;
+  max-width: 1420px;
+  min-height: 118px;
+
+  margin: 18px auto 0;
+
+  display: grid;
+  grid-template-columns: 78px 1fr minmax(320px, 46%);
+  align-items: center;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018),
+      rgba(255, 255, 255, 0.006)
+    );
+}
+
+.brandMark {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.brandMark span {
+  position: relative;
+
+  width: 38px;
+  height: 38px;
+
+  border:
+    5px solid
+    #ed1c24;
+
+  transform:
+    rotate(45deg);
+}
+
+.brandMark span::before,
+.brandMark span::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 6px;
+
+  border:
+    2px solid
+    #ed1c24;
+}
+
+.brandMark span::after {
+  inset: 13px;
+
+  background:
+    #ed1c24;
+}
+
+.brandBannerText {
+  position: relative;
+  z-index: 5;
+
+  padding:
+    20px 24px;
+}
+
+.brandBannerText h2 {
+  margin: 0;
+
+  color:
+    rgba(245, 245, 243, 0.9);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size:
+    clamp(13px, 1.15vw, 18px);
+
+  font-weight: 400;
+
+  letter-spacing:
+    0.15em;
+}
+
+.brandBannerText p {
+  max-width: 540px;
+
+  margin:
+    9px 0 0;
+
+  color:
+    rgba(245, 245, 243, 0.42);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 11px;
+
+  line-height: 1.55;
+}
+.fireVisual {
+  position: relative;
+  align-self: stretch;
+  min-height: 118px;
+  overflow: hidden;
+  background: #070707;
+}
+.fireVisual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/menu-embers.png") right center / cover no-repeat;
+  filter: brightness(0.9) contrast(1.08) saturate(1.04);
+}
+.fireVisual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      #070707 0%,
+      rgba(7, 7, 7, 0.98) 10%,
+      rgba(7, 7, 7, 0.92) 18%,
+      rgba(7, 7, 7, 0.78) 28%,
+      rgba(7, 7, 7, 0.50) 40%,
+      rgba(7, 7, 7, 0.18) 56%,
+      rgba(7, 7, 7, 0.02) 72%,
+      rgba(7, 7, 7, 0) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.10) 0%,
+      rgba(0, 0, 0, 0.00) 38%,
+      rgba(0, 0, 0, 0.18) 100%
+    );
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer {
+  width: 100%;
+  max-width: 1420px;
+
+  min-height: 78px;
+
+  margin: 16px auto 0;
+
+  display: grid;
+
+  grid-template-columns:
+    1.3fr
+    0.85fr
+    1fr
+    1.65fr;
+
+  align-items: center;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+.footerItem {
+  min-height: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding:
+    0 20px;
+
+  border-right:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  color:
+    rgba(245, 245, 243, 0.52);
+
+  text-decoration: none;
+}
+
+.footerItem:first-child {
+  padding-left: 0;
+}
+
+.footerIcon {
+  color:
+    rgba(245, 245, 243, 0.6);
+
+  font-size: 25px;
+}
+
+.footerItem div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.footerItem span:not(.footerIcon) {
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 9px;
+
+  color:
+    rgba(245, 245, 243, 0.28);
+}
+
+.footerItem strong {
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 400;
+
+  color:
+    rgba(245, 245, 243, 0.55);
+}
+
+.socials {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-end;
+
+  gap:
+    clamp(20px, 2.5vw, 38px);
+}
+
+.socials a {
+  color:
+    rgba(245, 245, 243, 0.48);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 11px;
+
+  text-decoration: none;
+
+  transition:
+    color 180ms ease;
+}
+
+.socials a:hover {
+  color: #ed1c24;
+}
+
+/* =========================
+   BANNER / FOOTER MOBILE
+   ========================= */
+
+@media (max-width: 760px) {
+  .brandBanner {
+    min-height: 150px;
+
+    grid-template-columns:
+      54px 1fr;
+  }
+
+  .brandMark span {
+    width: 28px;
+    height: 28px;
+
+    border-width: 4px;
+  }
+
+  .brandBannerText {
+    padding:
+      18px 16px;
+  }
+
+  .brandBannerText h2 {
+    font-size: 12px;
+
+    line-height: 1.45;
+  }
+
+  .brandBannerText p {
+    font-size: 10px;
+  }
+
+  .fireVisual {
+    position: absolute;
+
+    inset:
+      auto 0 0 0;
+
+    height: 44%;
+
+    opacity: 0.28;
+
+    pointer-events: none;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+
+    padding-top: 12px;
+  }
+
+  .footerItem {
+    min-height: 54px;
+
+    padding:
+      0;
+
+    border-right: 0;
+
+    border-bottom:
+      1px solid
+      rgba(255, 255, 255, 0.06);
+  }
+
+  .socials {
+    justify-content: flex-start;
+
+    padding:
+      20px 0;
+
+    gap: 24px;
+  }
+}
+
+.column {
+  min-width: 0;
+  animation: menuReveal 280ms ease both;
+}
+
+@keyframes menuReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .column {
+    animation: none;
+  }
+}
+

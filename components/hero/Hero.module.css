@@ -1,0 +1,837 @@
+.hero {
+  height: 100svh;
+  min-height: 680px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 5, 5, 0.04) 0%,
+      rgba(5, 5, 5, 0.08) 18%,
+      rgba(5, 5, 5, 0.22) 42%,
+      rgba(5, 5, 5, 0.68) 72%,
+      #050505 100%
+    ),
+    url("/images/hero-bg.png")
+    76% 20% / 108% auto
+    no-repeat,
+    #050505;
+}
+
+/* лёгкая глубина поверх изображения */
+
+.hero::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      40% 50% at 28% 78%,
+      rgba(237, 28, 36, 0.1),
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.08),
+      transparent 30%,
+      rgba(0, 0, 0, 0.14)
+    );
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 20;
+
+  height: 122px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(220px, 320px)
+    1fr
+    auto;
+
+  align-items: center;
+
+  gap: 36px;
+
+  padding:
+    20px
+    clamp(34px, 4vw, 72px);
+}
+
+.headerLogo {
+  display: block;
+
+  width: 230px;
+}
+
+.headerLogo img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  filter:
+    brightness(0)
+    invert(1);
+}
+
+.nav {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap:
+    clamp(22px, 2.6vw, 48px);
+
+  font-family:
+    var(--font-main),
+    sans-serif;
+
+  font-size:
+    clamp(12px, 0.8vw, 15px);
+
+  white-space: nowrap;
+}
+
+.nav a {
+  color:
+    rgba(245, 245, 243, 0.82);
+
+  transition:
+    color 200ms ease;
+}
+
+.nav a:hover {
+  color: #ffffff;
+}
+
+.headerBooking {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 54px;
+
+  padding:
+    0 28px;
+
+  border:
+    1px solid
+    rgba(237, 28, 36, 0.72);
+
+  color: #f5f5f3;
+
+  font-family:
+    var(--font-main),
+    sans-serif;
+
+  font-size: 11px;
+
+  letter-spacing: 0.13em;
+
+  transition:
+    background 220ms ease,
+    border-color 220ms ease;
+}
+
+.headerBooking:hover {
+  background:
+    rgba(237, 28, 36, 0.12);
+
+  border-color:
+    #ed1c24;
+}
+
+/* =========================
+   MAIN CONTENT
+   ========================= */
+
+.content {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 34svh;
+  bottom: auto;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.titleOrnament {
+  width: min(420px, 82%);
+  height: 34px;
+
+  margin-bottom: 28px;
+
+  background:
+    url("/brand/agniva-title-ornament.svg")
+    left center / 100% 100%
+    no-repeat;
+}
+
+.title {
+  margin: 0;
+  color: #f2f1ee;
+
+  font-family: var(--font-hero), sans-serif;
+
+  font-size: clamp(48px, 4.2vw, 70px);
+  font-weight: 400;
+
+  line-height: 0.9;
+  letter-spacing: 0.06em;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.45);
+}
+/* =========================
+   DIRECTIONS
+   ========================= */
+
+.directions {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap:
+    12px 16px;
+
+  margin-top:
+    clamp(26px, 3.4vh, 38px);
+
+  color:
+    rgba(245, 245, 243, 0.66);
+
+  font-family:
+    var(--font-main),
+    sans-serif;
+
+  font-size:
+    clamp(11px, 0.88vw, 15px);
+
+  letter-spacing:
+    0.1em;
+}
+
+.directions i {
+  width: 8px;
+  height: 8px;
+
+  background:
+    #ed1c24;
+
+  transform:
+    rotate(45deg);
+
+  flex:
+    0 0 auto;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+.actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 22px;
+
+  margin-top:
+    clamp(32px, 4vh, 46px);
+}
+
+.primaryButton,
+.secondaryButton {
+  min-height: 58px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  padding:
+    0 34px;
+
+  font-family:
+    var(--font-main),
+    sans-serif;
+
+  font-size: 11px;
+
+  letter-spacing:
+    0.11em;
+
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease;
+}
+
+.primaryButton {
+  color: #ffffff;
+
+  border:
+    1px solid
+    #ed1c24;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ed1c24,
+      #b90f17
+    );
+
+  box-shadow:
+    0 8px 30px
+    rgba(237, 28, 36, 0.12);
+}
+
+.secondaryButton {
+  color:
+    rgba(245, 245, 243, 0.86);
+
+  border:
+    1px solid
+    rgba(237, 28, 36, 0.6);
+
+  background:
+    rgba(0, 0, 0, 0.12);
+}
+
+.primaryButton:hover,
+.secondaryButton:hover {
+  transform:
+    translateY(-2px);
+}
+
+.secondaryButton:hover {
+  background:
+    rgba(237, 28, 36, 0.08);
+
+  border-color:
+    #ed1c24;
+}
+
+.primaryButton span,
+.secondaryButton span {
+  color:
+    #ffffff;
+
+  font-size: 18px;
+
+  line-height: 1;
+}
+
+/* =========================
+   AGNIVA MANIFESTO
+   ========================= */
+
+.manifesto {
+  width: min(500px, 38vw);
+
+  margin-top: 18px;
+
+  padding-left: 18px;
+
+  border-top: 0;
+
+  border-left:
+    1px solid
+    rgba(237, 28, 36, 0.42);
+}
+
+.manifestoLabel {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  margin-bottom: 8px;
+
+  color: #ed1c24;
+
+  font-family:
+    var(--font-hero),
+    sans-serif;
+
+  font-size: 11px;
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+}
+
+.manifestoLabel::before {
+  content: "";
+
+  width: 7px;
+  height: 7px;
+
+  flex: 0 0 7px;
+
+  border:
+    1px solid
+    #ed1c24;
+
+  transform:
+    rotate(45deg);
+}
+
+.manifestoText {
+  max-width: 480px;
+
+  margin: 0;
+
+  color:
+    rgba(245, 245, 243, 0.62);
+
+  font-family:
+    var(--font-main),
+    sans-serif;
+
+  font-size: 12px;
+
+  line-height: 1.55;
+
+  letter-spacing: 0.01em;
+}
+
+.manifestoText strong {
+  color:
+    rgba(245, 245, 243, 0.94);
+
+  font-family:
+    var(--font-hero),
+    sans-serif;
+
+  font-size: 13px;
+  font-weight: 400;
+
+  letter-spacing: 0.1em;
+}
+
+/* =========================
+   SIDE PATTERNS
+   ========================= */
+
+.sidePatternLeft,
+.sidePatternRight {
+  position: absolute;
+
+  z-index: 5;
+
+  top: 22%;
+  bottom: 12%;
+
+  width: 70px;
+
+  opacity: 0.16;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0 20px,
+      rgba(160, 160, 160, 0.42) 20px 28px,
+      transparent 28px 48px
+    );
+}
+
+.sidePatternLeft {
+  left: -26px;
+}
+
+.sidePatternRight {
+  right: -26px;
+
+  transform:
+    scaleX(-1);
+}
+
+/* =========================
+   SCROLL
+   ========================= */
+
+.scrollHint {
+  display: none;
+
+  position: absolute;
+
+  left:
+    clamp(74px, 9.5vw, 158px);
+
+  bottom: 28px;
+
+  z-index: 10;
+
+  width: 22px;
+  height: 22px;
+}
+
+.scrollHint span {
+  position: absolute;
+
+  left: 3px;
+  top: 2px;
+
+  width: 14px;
+  height: 14px;
+
+  border-right:
+    1px solid
+    #ed1c24;
+
+  border-bottom:
+    1px solid
+    #ed1c24;
+
+  transform:
+    rotate(45deg);
+}
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 1100px) {
+  .header {
+    grid-template-columns:
+      180px 1fr auto;
+
+    padding:
+      18px 32px;
+
+    gap: 20px;
+  }
+
+  .headerLogo {
+    width: 170px;
+  }
+
+  .nav {
+    gap: 20px;
+  }
+
+  .content {
+    width: 48vw;
+
+    margin-left: 48px;
+  }
+
+  .title {
+    font-size:
+      clamp(42px, 5vw, 62px);
+  }
+
+  .scrollHint {
+    left: 48px;
+  }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+@media (max-width: 760px) {
+
+ .hero {
+  height: 660px;
+  min-height: 660px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 5, 5, 0.04) 0%,
+      rgba(5, 5, 5, 0.08) 18%,
+      rgba(5, 5, 5, 0.16) 44%,
+      rgba(5, 5, 5, 0.48) 76%,
+      #050505 100%
+    ),
+    url("/images/hero-bg.png")
+82% 46% / cover
+no-repeat,
+    #050505;
+}
+
+  /*
+   * Верх специально оставляем
+   * практически прозрачным —
+   * фотография будет проходить
+   * под логотипом и кнопкой МЕНЮ.
+   */
+  .hero::after {
+    background:
+      radial-gradient(
+        48% 44% at 22% 76%,
+        rgba(237, 28, 36, 0.12),
+        transparent 72%
+      ),
+      linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.03) 25%,
+        rgba(0, 0, 0, 0.14) 100%
+      );
+  }
+
+  /*
+   * Главный блок больше не
+   * прижат к низу.
+   * Поднимаем всю композицию.
+   */
+  .content {
+    position: absolute;
+
+    left: 20px;
+    right: 20px;
+
+    top: 29svh;
+    bottom: auto;
+
+    width: auto;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .titleOrnament {
+    width: 210px;
+    height: 22px;
+
+    margin-bottom: 18px;
+  }
+
+  .title {
+    max-width: 330px;
+
+    font-size:
+      clamp(38px, 11vw, 52px);
+
+    line-height: 0.92;
+
+    letter-spacing: 0.045em;
+  }
+
+  /*
+   * КУХНЯ / БАР /
+   * ДЫМНАЯ КУЛЬТУРА
+   */
+  .directions {
+  margin-top: 24px;
+  gap: 9px 11px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+  .directions i {
+    width: 6px;
+    height: 6px;
+  }
+
+  /*
+   * Кнопки тоже подтягиваем
+   * ближе к основному тексту.
+   */
+ .actions {
+  gap: 12px;
+  margin-top: 24px;
+}
+
+  .primaryButton,
+  .secondaryButton {
+    min-height: 48px;
+
+    padding:
+      0 18px;
+
+    gap: 8px;
+
+    font-size: 9px;
+  }
+
+  .sidePatternLeft,
+  .sidePatternRight,
+  .scrollHint {
+    display: none;
+  }
+
+  .manifesto {
+  max-width: 340px;
+
+  margin-top: 26px;
+
+  padding-top: 16px;
+}
+
+.manifestoLabel {
+  margin-bottom: 10px;
+
+  font-size: 10px;
+
+  letter-spacing: 0.17em;
+}
+
+.manifestoText {
+  font-size: 11px;
+
+  line-height: 1.6;
+
+  color:
+    rgba(245, 245, 243, 0.62);
+}
+
+.manifestoText strong {
+  font-size: 1.22em;
+}
+
+}
+
+/* =========================
+   DESKTOP HERO RESTORE
+   ========================= */
+
+@media (min-width: 1101px) {
+  .hero {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(5, 5, 5, 0.03) 0%,
+        rgba(5, 5, 5, 0.06) 18%,
+        rgba(5, 5, 5, 0.16) 42%,
+        rgba(5, 5, 5, 0.52) 74%,
+        #050505 100%
+      ),
+      url("/images/hero-bg.png")
+      center 20% / 100% auto
+      no-repeat,
+      #050505;
+  }
+
+  .content {
+    left: clamp(90px, 9.5vw, 158px);
+    right: auto;
+
+    top: 23.5svh;
+
+    width: min(560px, 40vw);
+
+    margin: 0;
+  }
+}
+
+@media (min-width: 1101px) {
+  .sidePatternLeft,
+  .sidePatternRight {
+    display: none;
+  }
+}
+
+@media (min-width: 1101px) {
+  .manifesto {
+    width: min(540px, 40vw);
+
+    margin-top: 22px;
+
+    padding-left: 20px;
+
+    border-left:
+      1px solid
+      rgba(237, 28, 36, 0.5);
+  }
+
+  .manifestoLabel {
+    gap: 12px;
+
+    margin-bottom: 14px;
+
+    font-family:
+      var(--font-hero),
+      sans-serif;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    line-height: 1;
+
+    letter-spacing: 0.16em;
+  }
+
+  .manifestoLabel::before {
+    width: 8px;
+    height: 8px;
+
+    flex: 0 0 8px;
+  }
+
+  .manifestoText {
+    max-width: 520px;
+
+    font-family:
+      var(--font-hero),
+      sans-serif;
+
+    font-size: 15px;
+    font-weight: 400;
+
+    line-height: 1.48;
+
+    letter-spacing: 0.035em;
+
+    color:
+      rgba(245, 245, 243, 0.72);
+  }
+
+  .manifestoText strong {
+    display: inline-block;
+
+    margin-right: 5px;
+
+    color: #f4f1eb;
+
+    font-family:
+      var(--font-hero),
+      sans-serif;
+
+    font-size: 17px;
+    font-weight: 400;
+
+    letter-spacing: 0.13em;
+  }
+}
+

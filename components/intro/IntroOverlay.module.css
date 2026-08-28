@@ -1,0 +1,726 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  overflow: hidden;
+
+  background: #050505;
+
+  opacity: 1;
+  visibility: visible;
+
+  isolation: isolate;
+
+  pointer-events: none;
+
+  will-change:
+    opacity,
+    visibility;
+
+  animation:
+    overlaySafetyHide
+    0.01s
+    linear
+    4.6s
+    forwards;
+}
+
+.overlayLeaving {
+  animation:
+    overlayFadeOut
+    0.9s
+    cubic-bezier(0.4, 0, 0.2, 1)
+    forwards;
+}
+
+/* ========================================
+   BACKGROUND
+   ======================================== */
+
+.background {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 50% 100%,
+      rgba(118, 5, 12, 0.18) 0%,
+      rgba(58, 3, 6, 0.08) 34%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 42% 34% at 50% 44%,
+      rgba(255, 255, 255, 0.018),
+      transparent 72%
+    ),
+    #050505;
+}
+
+.redGlow {
+  position: absolute;
+
+  z-index: 2;
+
+  left: 50%;
+  bottom: -23%;
+
+  width: 86vw;
+  height: 52vh;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(237, 28, 36, 0.32) 0%,
+      rgba(237, 28, 36, 0.16) 24%,
+      rgba(237, 28, 36, 0.055) 46%,
+      transparent 72%
+    );
+
+  filter: blur(34px);
+
+  animation:
+    redGlowBreath
+    4.8s
+    ease-in-out
+    infinite alternate;
+}
+
+
+
+/* ========================================
+   ORNAMENT
+   ======================================== */
+.ornamentTop,
+.ornamentBottom {
+  display: none;
+}
+
+/* ========================================
+   BRAND
+   ======================================== */
+
+.brand {
+  position: absolute;
+  inset: 0;
+
+  z-index: 20;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+  Только этот элемент отвечает за scale.
+
+  ОДНА анимация.
+  ОДИН from.
+  ОДИН to.
+
+  Никаких промежуточных ключевых кадров.
+*/
+
+.logoMotion {
+  width: min(58vw, 720px);
+
+  transform-origin: center center;
+
+  transform:
+    translate3d(0, 0, 0)
+    scale(0.86);
+
+  animation:
+    logoContinuousZoom
+    3.35s
+    linear
+    0.25s
+    forwards;
+
+  will-change: transform;
+
+  backface-visibility: hidden;
+
+  transform-style: preserve-3d;
+}
+
+.logoStage {
+  --logo-mask:
+    url("/brand/agniva-logo-mark.svg");
+
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 760 / 330;
+
+  opacity: 0;
+
+  animation:
+    logoOpacity
+    1s
+    ease-out
+    0.2s
+    forwards;
+
+  will-change: opacity;
+}
+
+.logoMetal,
+.logoEmber,
+.logoSheen {
+  position: absolute;
+  inset: 0;
+
+  -webkit-mask-image:
+    var(--logo-mask);
+
+  mask-image:
+    var(--logo-mask);
+
+  -webkit-mask-repeat:
+    no-repeat;
+
+  mask-repeat:
+    no-repeat;
+
+  -webkit-mask-position:
+    center;
+
+  mask-position:
+    center;
+
+  -webkit-mask-size:
+    contain;
+
+  mask-size:
+    contain;
+}
+
+/* SILVER / GRAPHITE METAL */
+
+.logoMetal {
+  background:
+    linear-gradient(
+      180deg,
+      #a9acb1 0%,
+      #787c82 16%,
+      #3b3e43 37%,
+      #7b7e83 55%,
+      #292c30 76%,
+      #666a70 100%
+    );
+
+  filter:
+    drop-shadow(
+      0 12px 28px
+      rgba(0, 0, 0, 0.52)
+    );
+}
+
+/* RED EMBER INSIDE LETTERS */
+
+.logoEmber {
+  opacity: 0.48;
+
+  background:
+    radial-gradient(
+      circle at 12% 55%,
+      rgba(237, 28, 36, 0.76),
+      transparent 14%
+    ),
+    radial-gradient(
+      circle at 35% 44%,
+      rgba(237, 28, 36, 0.33),
+      transparent 16%
+    ),
+    radial-gradient(
+      circle at 62% 58%,
+      rgba(237, 28, 36, 0.5),
+      transparent 17%
+    ),
+    radial-gradient(
+      circle at 84% 42%,
+      rgba(237, 28, 36, 0.58),
+      transparent 15%
+    );
+
+  mix-blend-mode: screen;
+
+  animation:
+    emberBreath
+    2.5s
+    ease-in-out
+    infinite alternate;
+}
+
+/*
+  ВАЖНЫЙ FIX:
+
+  Мы НЕ двигаем .logoSheen через transform.
+
+  Иначе двигается сама маска и появляется
+  "вторая АГНИВА".
+
+  Теперь двигается только gradient
+  ВНУТРИ неподвижной формы логотипа.
+*/
+
+.logoSheen {
+  opacity: 0.78;
+
+  background-image:
+    linear-gradient(
+      110deg,
+      transparent 0%,
+      transparent 39%,
+      rgba(255, 255, 255, 0.04) 44%,
+      rgba(255, 255, 255, 0.56) 50%,
+      rgba(255, 255, 255, 0.08) 56%,
+      transparent 62%,
+      transparent 100%
+    );
+
+  background-size:
+    240% 100%;
+
+  background-position:
+    120% center;
+
+  mix-blend-mode: screen;
+
+  animation:
+    metallicSheen
+    2.7s
+    ease-in-out
+    0.7s
+    forwards;
+}
+
+.tagline {
+  margin:
+    clamp(5px, 0.8vh, 9px)
+    0 0;
+
+  color:
+    rgba(215, 215, 212, 0.7);
+
+  font-size:
+  clamp(16px, 1.2vw, 20px);
+
+  line-height: 1;
+
+  font-weight: 400;
+
+  letter-spacing:
+    0.26em;
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  transform:
+    translateY(7px);
+
+  animation:
+    taglineIn
+    0.95s
+    ease-out
+    1s
+    forwards;
+}
+
+/* ========================================
+   SPARKS
+   ======================================== */
+
+.sparks {
+  position: absolute;
+  inset: 0;
+
+  z-index: 16;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.spark {
+  position: absolute;
+
+  left: var(--x);
+  bottom: -38px;
+
+  width: 2px;
+  height: var(--length);
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      to top,
+      transparent 0%,
+      rgba(255, 67, 20, 0.62) 25%,
+      rgba(255, 118, 37, 1) 68%,
+      rgba(255, 224, 178, 1) 100%
+    );
+
+  box-shadow:
+    0 0 5px
+    rgba(255, 94, 30, 0.95),
+    0 0 14px
+    rgba(237, 28, 36, 0.42);
+
+  opacity: 0;
+
+  transform:
+    translate3d(0, 0, 0)
+    rotate(-22deg);
+
+  animation:
+    sparkFly
+    var(--duration)
+    linear
+    var(--delay)
+    infinite;
+
+  will-change:
+    transform,
+    opacity;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes logoOpacity {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+  Самое главное движение заставки.
+
+  Никаких остановок.
+  Никаких 20%, 50%, 70%.
+*/
+
+@keyframes logoContinuousZoom {
+  from {
+    transform:
+      translate3d(0, 0, 0)
+      scale(0.86);
+  }
+
+  to {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1.17);
+  }
+}
+
+@keyframes metallicSheen {
+  from {
+    background-position:
+      120% center;
+  }
+
+  to {
+    background-position:
+      -120% center;
+  }
+}
+
+@keyframes emberBreath {
+  from {
+    opacity: 0.28;
+  }
+
+  to {
+    opacity: 0.58;
+  }
+}
+
+@keyframes taglineIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(7px);
+  }
+
+  to {
+    opacity: 0.72;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes sparkFly {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate3d(
+        0,
+        0,
+        0
+      )
+      rotate(-22deg);
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  42% {
+    opacity: 0.95;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate3d(
+        var(--drift),
+        -94vh,
+        0
+      )
+      rotate(-27deg);
+  }
+}
+@keyframes smokeA {
+  from {
+    transform: translate3d(-2%, 4%, 0) scale(1.14);
+    opacity: 0.18;
+  }
+
+  to {
+    transform: translate3d(6%, -7%, 0) scale(1.24);
+    opacity: 0.3;
+  }
+}
+
+@keyframes smokeB {
+  from {
+    transform: rotate(180deg) translate3d(-2%, 1%, 0) scale(1.14);
+    opacity: 0.14;
+  }
+
+  to {
+    transform: rotate(180deg) translate3d(6%, 8%, 0) scale(1.25);
+    opacity: 0.26;
+  }
+}
+
+@keyframes smokeC {
+  from {
+    transform: rotate(-8deg) translate3d(-2%, 0, 0) scale(1.16);
+    opacity: 0.08;
+  }
+
+  to {
+    transform: rotate(-3deg) translate3d(5%, -8%, 0) scale(1.26);
+    opacity: 0.18;
+  }
+}
+
+@keyframes redGlowBreath {
+  from {
+    opacity: 0.7;
+
+    transform:
+      translateX(-50%)
+      scale(1);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      scale(1.06);
+  }
+}
+
+@keyframes ornamentTopIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(-5px);
+  }
+
+  to {
+    opacity: 0.68;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+}
+
+@keyframes ornamentBottomIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      rotate(180deg)
+      translateY(-5px);
+  }
+
+  to {
+    opacity: 0.68;
+
+    transform:
+      translateX(-50%)
+      rotate(180deg)
+      translateY(0);
+  }
+}
+
+@keyframes overlayFadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+@keyframes overlaySafetyHide {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* ========================================
+   TABLET
+   ======================================== */
+
+@media (max-width: 900px) {
+  .logoMotion {
+    width:
+      min(70vw, 620px);
+  }
+
+  .tagline {
+    font-size:
+      15px;
+
+    letter-spacing:
+      0.28em;
+  }
+
+  .smokeA,
+  .smokeB {
+    width: 86vw;
+  }
+
+  .ornamentTop,
+  .ornamentBottom {
+    width: 92vw;
+  }
+}
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 640px) {
+  .logoMotion {
+    width: 80vw;
+  }
+
+  .tagline {
+    margin-top: 3px;
+
+    font-size: 12px;
+
+    letter-spacing:
+      0.2em;
+  }
+
+  .ornamentTop,
+  .ornamentBottom {
+    width: 94vw;
+
+    opacity: 0.54;
+  }
+
+  .smokeA {
+    width: 108vw;
+    height: 64vh;
+
+    left: -34vw;
+
+    opacity: 0.24;
+  }
+
+  .smokeB {
+    width: 108vw;
+    height: 60vh;
+
+    right: -38vw;
+
+    opacity: 0.2;
+  }
+
+  .smokeC {
+    width: 90vw;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .overlayLeaving,
+  .logoMotion,
+  .logoStage,
+  .logoEmber,
+  .logoSheen,
+  .tagline,
+  .spark,
+  .smoke,
+  .redGlow,
+  .ornamentTop,
+  .ornamentBottom {
+    animation: none !important;
+  }
+
+  .logoStage,
+  .tagline,
+  .ornamentTop,
+  .ornamentBottom {
+    opacity: 1;
+  }
+
+  .logoMotion {
+    transform: none;
+  }
+}
+

@@ -1,0 +1,940 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  padding:
+    0 clamp(24px, 4vw, 72px)
+    48px;
+
+  color: #f5f5f3;
+
+  background:
+    radial-gradient(
+      circle at 75% 58%,
+      rgba(128, 4, 10, 0.13),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 18% 75%,
+      rgba(237, 28, 36, 0.04),
+      transparent 30%
+    ),
+    #050505;
+}
+
+
+/* =========================
+   TOP ORNAMENT
+   ========================= */
+
+.page::before {
+  content: "";
+
+  position: absolute;
+  z-index: 30;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 20px;
+
+  background:
+    url("/brand/agniva-top-pattern.svg")
+    left top / auto 20px
+    repeat-x;
+
+  pointer-events: none;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+  position: relative;
+  z-index: 20;
+
+  width: 100%;
+  max-width: 1420px;
+  min-height: 118px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    230px
+    1fr
+    auto;
+
+  align-items: center;
+
+  gap: 34px;
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+
+.logo {
+  display: block;
+  width: 205px;
+}
+
+
+.logo img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  filter:
+    brightness(0)
+    invert(1);
+
+  opacity: 0.94;
+}
+
+
+.nav {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap:
+    clamp(24px, 2.8vw, 48px);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size:
+    clamp(10px, 0.72vw, 13px);
+
+  font-weight: 500;
+
+  letter-spacing: 0.025em;
+
+  white-space: nowrap;
+}
+
+
+.nav a {
+  position: relative;
+
+  padding:
+    42px 0
+    36px;
+
+  color:
+    rgba(245, 245, 243, 0.74);
+
+  text-decoration: none;
+
+  transition:
+    color 180ms ease;
+}
+
+
+.nav a:hover {
+  color: #ffffff;
+}
+
+
+.nav a.active {
+  color: #ed1c24;
+}
+
+
+.nav a.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 24px;
+
+  width: 26px;
+  height: 2px;
+
+  transform:
+    translateX(-50%);
+
+  background: #ed1c24;
+}
+
+
+.booking {
+  min-height: 48px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0 24px;
+
+  border:
+    1px solid
+    rgba(237, 28, 36, 0.78);
+
+  color: #ed1c24;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.07em;
+
+  text-decoration: none;
+
+  transition:
+    color 200ms ease,
+    background 200ms ease,
+    box-shadow 200ms ease;
+}
+
+
+.booking:hover {
+  color: #ffffff;
+
+  background:
+    rgba(237, 28, 36, 0.12);
+
+  box-shadow:
+    0 0 24px
+    rgba(237, 28, 36, 0.08);
+}
+
+
+/* =========================
+   HERO
+   ========================= */
+
+.hero {
+  position: relative;
+
+  width: 100%;
+  max-width: 1420px;
+
+  min-height:
+    calc(100vh - 166px);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(480px, 1.1fr);
+
+  align-items: center;
+
+  gap:
+    clamp(56px, 7vw, 120px);
+
+  padding:
+    62px 0
+    72px;
+}
+
+
+.hero > div:first-child {
+  position: relative;
+  z-index: 5;
+
+  max-width: 620px;
+}
+
+
+.eyebrow {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 24px;
+
+  color: #ed1c24;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.28em;
+}
+
+
+.eyebrow::before {
+  content: "";
+
+  width: 34px;
+  height: 1px;
+
+  background: #ed1c24;
+}
+
+
+.hero h1 {
+  margin: 0;
+
+  color:
+    rgba(245, 245, 243, 0.96);
+
+  font-family:
+    var(--font-hero),
+    sans-serif;
+
+  font-size:
+    clamp(54px, 5vw, 84px);
+
+  font-weight: 400;
+
+  line-height: 0.96;
+
+  letter-spacing: 0.055em;
+}
+
+
+.hero p {
+  max-width: 500px;
+
+  margin:
+    30px 0 0;
+
+  color:
+    rgba(245, 245, 243, 0.48);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size:
+    clamp(12px, 0.9vw, 14px);
+
+  line-height: 1.7;
+}
+
+
+/* =========================
+   ACTIONS
+   ========================= */
+
+.actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 30px;
+
+  margin-top: 38px;
+}
+
+
+.primary {
+  min-height: 52px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0 28px;
+
+  border:
+    1px solid #ed1c24;
+
+  background: #ed1c24;
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+
+  transition:
+    background 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+
+.primary:hover {
+  background: #ff252d;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 30px
+    rgba(237, 28, 36, 0.17);
+}
+
+
+.secondary {
+  position: relative;
+
+  padding-bottom: 6px;
+
+  color:
+    rgba(245, 245, 243, 0.58);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.07em;
+
+  text-decoration: none;
+
+  transition:
+    color 200ms ease;
+}
+
+
+.secondary::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 28px;
+  height: 1px;
+
+  background:
+    rgba(237, 28, 36, 0.75);
+
+  transition:
+    width 220ms ease;
+}
+
+
+.secondary:hover {
+  color: #ffffff;
+}
+
+
+.secondary:hover::after {
+  width: 100%;
+}
+
+
+/* =========================
+   DELIVERY VISUAL
+   ========================= */
+
+.visual {
+  position: relative;
+
+  min-height: 520px;
+
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: flex-start;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+
+  background:
+    radial-gradient(
+      circle at 65% 72%,
+      rgba(237, 28, 36, 0.28),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 60% 40%,
+      rgba(255, 255, 255, 0.035),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #111111,
+      #070707 55%,
+      #150506
+    );
+}
+
+
+.visual::before {
+  content: "";
+
+  position: absolute;
+
+  width: 115%;
+  height: 1px;
+
+  left: -8%;
+  top: 43%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(237, 28, 36, 0.55),
+      transparent
+    );
+
+  transform:
+    rotate(-24deg);
+}
+
+
+.visual::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 70% 100%,
+      rgba(237, 28, 36, 0.22),
+      transparent 40%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(5, 5, 5, 0.48),
+      transparent 45%
+    );
+
+  pointer-events: none;
+}
+
+
+.visual span {
+  position: relative;
+  z-index: 4;
+
+  margin:
+    0 0 26px
+    28px;
+
+  color:
+    rgba(245, 245, 243, 0.28);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 9px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.14em;
+}
+
+
+/* =========================
+   DELIVERY HERO IMAGE — DESKTOP
+   ========================= */
+
+@media (min-width: 761px) {
+  .visual {
+    border: none;
+
+    background:
+      linear-gradient(
+        90deg,
+        #050505 0%,
+        rgba(5, 5, 5, 0.72) 14%,
+        rgba(5, 5, 5, 0.22) 34%,
+        rgba(5, 5, 5, 0.02) 58%,
+        rgba(5, 5, 5, 0.10) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(5, 5, 5, 0.08) 0%,
+        transparent 22%,
+        transparent 76%,
+        rgba(5, 5, 5, 0.26) 100%
+      ),
+      url("/images/delivery-hero.png")
+      58% 56% / cover
+      no-repeat;
+  }
+
+  .visual::before {
+    display: none;
+  }
+
+  .visual::after {
+    background:
+      linear-gradient(
+        90deg,
+        #050505 0%,
+        rgba(5, 5, 5, 0.56) 18%,
+        transparent 40%,
+        transparent 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(5, 5, 5, 0.16) 0%,
+        transparent 18%,
+        transparent 78%,
+        rgba(5, 5, 5, 0.30) 100%
+      );
+  }
+
+  .visual span {
+    color: rgba(245, 245, 243, 0.42);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.72);
+  }
+}
+
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 1180px) {
+  .header {
+    grid-template-columns:
+      180px
+      1fr
+      auto;
+
+    gap: 20px;
+  }
+
+  .logo {
+    width: 165px;
+  }
+
+  .nav {
+    gap: 20px;
+
+    font-size: 10px;
+  }
+
+  .booking {
+    padding:
+      0 16px;
+
+    font-size: 9px;
+  }
+
+  .hero {
+    grid-template-columns:
+      minmax(0, 0.9fr)
+      minmax(400px, 1.1fr);
+
+    gap: 48px;
+  }
+
+  .visual {
+    min-height: 460px;
+  }
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 760px) {
+  .page {
+  padding:
+    104px 18px
+    32px;
+}
+
+  .page::before {
+  display: none;
+}
+
+  .header {
+    min-height: 82px;
+
+    display: flex;
+
+    justify-content:
+      space-between;
+
+    gap: 12px;
+  }
+
+  .logo {
+    width: 142px;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .booking {
+    min-height: 40px;
+
+    padding:
+      0 12px;
+
+    font-size: 8px;
+
+    letter-spacing:
+      0.03em;
+  }
+
+  .hero {
+    min-height: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 42px;
+
+    padding:
+      42px 0
+      36px;
+  }
+
+  .hero h1 {
+    font-size:
+      clamp(46px, 14vw, 64px);
+  }
+
+  .hero p {
+    margin-top: 22px;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+
+    gap: 22px;
+
+    margin-top: 30px;
+  }
+
+  .visual {
+  min-height: 360px;
+
+  border: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 5, 5, 0.10) 0%,
+      rgba(5, 5, 5, 0.02) 45%,
+      rgba(5, 5, 5, 0.26) 100%
+    ),
+    url("/images/delivery-hero.png")
+    62% 54% / cover
+    no-repeat;
+}
+
+.visual::before {
+  display: none;
+}
+
+.visual::after {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 5, 5, 0.28) 0%,
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      transparent 65%,
+      rgba(5, 5, 5, 0.20) 100%
+    );
+}
+
+  .visual span {
+    margin:
+      0 0 20px
+      20px;
+
+    font-size: 8px;
+  }
+}
+/* =========================
+   DELIVERY MENU
+   ========================= */
+
+.deliveryMenu {
+  width: 100%;
+  max-width: 1420px;
+
+  margin: 0 auto;
+
+  padding:
+    86px 0
+    70px;
+
+  scroll-margin-top: 24px;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+.deliveryMenuHeader {
+  max-width: 620px;
+}
+
+.deliveryMenuHeader > span {
+  color: #ed1c24;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 0.24em;
+}
+
+.deliveryMenuHeader h2 {
+  margin:
+    16px 0 0;
+
+  color:
+    rgba(245, 245, 243, 0.94);
+
+  font-family:
+    var(--font-hero),
+    sans-serif;
+
+  font-size:
+    clamp(42px, 4vw, 68px);
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing: 0.07em;
+}
+
+.deliveryMenuHeader p {
+  max-width: 500px;
+
+  margin:
+    22px 0 0;
+
+  color:
+    rgba(245, 245, 243, 0.42);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+.menuPlaceholder {
+  min-height: 220px;
+
+  margin-top: 42px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  background:
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(237, 28, 36, 0.10),
+      transparent 42%
+    ),
+    #080808;
+}
+
+.menuPlaceholder span {
+  color:
+    rgba(245, 245, 243, 0.16);
+
+  font-family:
+    var(--font-hero),
+    sans-serif;
+
+  font-size: 22px;
+
+  letter-spacing: 0.18em;
+}
+
+.menuPlaceholder p {
+  margin: 0;
+
+  color:
+    rgba(245, 245, 243, 0.25);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 9px;
+
+  letter-spacing: 0.17em;
+}
+
+
+/* =========================
+   VERY SMALL MOBILE
+   ========================= */
+
+@media (max-width: 420px) {
+  .booking {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size:
+      clamp(42px, 13vw, 54px);
+  }
+
+  .primary {
+    width: 100%;
+  }
+
+  .visual {
+    min-height: 300px;
+  }
+}

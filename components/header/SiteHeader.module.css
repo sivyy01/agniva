@@ -1,0 +1,885 @@
+.shell {
+  position: fixed;
+
+  z-index: 1000;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 118px;
+
+  background: transparent;
+
+  border-bottom:
+    1px solid
+    transparent;
+
+  transition:
+    background 280ms ease,
+    backdrop-filter 280ms ease,
+    box-shadow 280ms ease,
+    border-color 280ms ease;
+}
+
+.scrolled {
+  background:
+    rgba(5, 5, 5, 0.48);
+
+  -webkit-backdrop-filter:
+    blur(16px);
+
+  backdrop-filter:
+    blur(16px);
+
+  border-bottom-color:
+    rgba(255, 255, 255, 0.07);
+
+  box-shadow:
+    0 10px 35px
+    rgba(0, 0, 0, 0.16);
+}
+
+
+/* =========================
+   TOP ORNAMENT
+   ========================= */
+
+.topOrnament {
+  position: absolute;
+
+  z-index: 3;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 20px;
+
+  background:
+    url("/brand/agniva-top-pattern.svg")
+    left top / auto 20px
+    repeat-x;
+
+  pointer-events: none;
+
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+  position: relative;
+
+  width:
+    calc(100% - 8vw);
+
+  max-width: 1420px;
+
+  height: 118px;
+
+  margin: 0 auto;
+
+  padding-top: 18px;
+
+  box-sizing: border-box;
+
+  display: grid;
+
+  grid-template-columns:
+    220px
+    1fr
+    auto;
+
+  align-items: center;
+
+  gap: 32px;
+}
+
+
+/* =========================
+   LOGO
+   ========================= */
+.logo {
+  width: 205px;
+
+  display: block;
+
+  line-height: 0;
+
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.logo img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  filter:
+    brightness(0)
+    invert(1);
+
+  opacity: 0.94;
+}
+
+
+/* =========================
+   DESKTOP NAVIGATION
+   ========================= */
+
+.nav {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap:
+    clamp(18px, 2vw, 36px);
+
+  white-space: nowrap;
+}
+
+.nav a {
+  position: relative;
+
+  padding:
+    36px 0
+    30px;
+
+  color:
+    rgba(245, 245, 243, 0.86);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size:
+    clamp(12px, 0.85vw, 14px);
+
+  font-weight: 600;
+
+  letter-spacing: 0.035em;
+
+  text-decoration: none;
+
+  transition:
+    color 180ms ease;
+}
+
+.nav a:hover {
+  color: #fff;
+}
+
+.nav .active {
+  color: #ed1c24;
+}
+
+.nav .active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 20px;
+
+  width: 26px;
+  height: 2px;
+
+  transform:
+    translateX(-50%);
+
+  background: #ed1c24;
+}
+
+
+/* =========================
+   DESKTOP ACTIONS
+   ========================= */
+
+.actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.telegram {
+  width: 48px;
+  height: 48px;
+
+  flex: 0 0 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid
+    rgba(237, 28, 36, 0.68);
+
+  color: #ed1c24;
+
+  text-decoration: none;
+
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.telegram svg {
+  width: 19px;
+  height: 19px;
+}
+
+.telegram:hover {
+  color: #fff;
+
+  background:
+    rgba(237, 28, 36, 0.12);
+
+  border-color: #ed1c24;
+}
+
+.booking {
+  min-height: 48px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0 24px;
+
+  border:
+    1px solid
+    rgba(237, 28, 36, 0.78);
+
+  color: #ed1c24;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.06em;
+
+  text-decoration: none;
+
+  transition:
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.booking:hover {
+  color: #fff;
+
+  background:
+    rgba(237, 28, 36, 0.12);
+}
+
+
+/* =========================
+   DEFAULT MOBILE ELEMENTS
+   ========================= */
+
+.spacer {
+  display: none;
+}
+
+.menuButton {
+  display: none;
+}
+
+.mobileMenu {
+  display: none;
+}
+
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 1180px) {
+  .header {
+    grid-template-columns:
+      175px
+      1fr
+      auto;
+
+    gap: 18px;
+  }
+
+  .logo {
+    width: 165px;
+  }
+
+  .nav {
+    gap: 16px;
+  }
+
+  .booking {
+    padding:
+      0 15px;
+
+    font-size: 9px;
+  }
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 900px) {
+  /*
+   * В самом верху страницы
+   * шапка ещё имеет фон.
+   */
+
+  .shell {
+  height: 92px;
+
+  background: transparent;
+
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+
+  border-bottom-color: transparent;
+
+  box-shadow: none;
+}
+
+  /*
+   * После начала скролла:
+   * чёрная полоса исчезает.
+   * Шапка становится полностью
+   * прозрачной.
+   */
+
+  .shell.scrolled {
+    background: transparent;
+
+    -webkit-backdrop-filter: none;
+
+    backdrop-filter: none;
+
+    border-bottom-color:
+      transparent;
+
+    box-shadow: none;
+  }
+
+  /*
+   * Красный орнамент видим
+   * только в самом верху сайта.
+   */
+
+  .topOrnament {
+    height: 12px;
+
+    background-size:
+      auto 12px;
+  }
+
+  .shell.scrolled
+  .topOrnament {
+    opacity: 0;
+
+    transform:
+      translateY(-14px);
+  }
+
+  .header {
+    position: relative;
+
+    z-index: 5;
+
+    width:
+      calc(100% - 32px);
+
+    height: 92px;
+
+    padding-top: 12px;
+
+    grid-template-columns:
+      1fr
+      auto;
+
+    gap: 16px;
+  }
+
+  /*
+   * Логотип остаётся доступным,
+   * но после скролла становится
+   * чуть спокойнее.
+   */
+
+  .logo {
+    width: 142px;
+  }
+
+  .shell.scrolled
+.logo {
+  opacity: 0;
+
+  transform:
+    translateY(-10px);
+
+  pointer-events: none;
+}
+
+  /*
+   * Desktop-навигация
+   * на телефоне полностью скрыта.
+   */
+
+  .nav,
+  .actions {
+    display: none;
+  }
+
+  /*
+   * ВАЖНО:
+   * больше НЕ толкаем Hero вниз.
+   */
+
+  .spacer {
+    display: none;
+  }
+
+
+  /* =========================
+     MOBILE MENU BUTTON
+     ========================= */
+
+  .menuButton {
+    position: relative;
+
+    z-index: 1005;
+
+    width: 98px;
+    height: 46px;
+
+    display: block;
+
+    padding:
+      0 38px
+      0 13px;
+
+    border:
+      1px solid
+      rgba(237, 28, 36, 0.72);
+
+    background:
+      transparent;
+
+    color: #ed1c24;
+
+    cursor: pointer;
+
+    pointer-events: auto;
+
+    touch-action: manipulation;
+
+    -webkit-appearance: none;
+
+    -webkit-tap-highlight-color:
+      transparent;
+  }
+
+  /*
+   * Подпись МЕНЮ создаём
+   * прямо CSS — TSX менять
+   * для этого не требуется.
+   */
+
+  .menuButton::before {
+    content: "МЕНЮ";
+
+    position: absolute;
+
+    left: 13px;
+    top: 50%;
+
+    transform:
+      translateY(-50%);
+
+    color: #ed1c24;
+
+    font-family:
+      var(--font-manrope),
+      sans-serif;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.13em;
+
+    pointer-events: none;
+  }
+
+  /*
+   * Две линии бургера.
+   */
+
+  .menuButton span {
+    position: absolute;
+
+    right: 13px;
+
+    display: block;
+
+    width: 18px;
+    height: 1px;
+
+    background: #ed1c24;
+
+    pointer-events: none;
+
+    transform-origin:
+      center center;
+
+    transition:
+      top 200ms ease,
+      transform 200ms ease;
+  }
+
+  .menuButton span:first-of-type {
+    top: 18px;
+  }
+
+  .menuButton span:last-of-type {
+    top: 27px;
+  }
+
+  /*
+   * Когда меню открыто —
+   * линии превращаются
+   * в крестик.
+   */
+
+  .menuButtonOpen
+  span:first-of-type {
+    top: 22px;
+
+    transform:
+      rotate(45deg);
+  }
+
+  .menuButtonOpen
+  span:last-of-type {
+    top: 22px;
+
+    transform:
+      rotate(-45deg);
+  }
+
+  /*
+   * После скролла сама кнопка
+   * остаётся, но никакой
+   * чёрной подложки вокруг неё нет.
+   */
+
+  .shell.scrolled
+  .menuButton {
+    background:
+      rgba(5, 5, 5, 0.12);
+
+    -webkit-backdrop-filter:
+      blur(5px);
+
+    backdrop-filter:
+      blur(5px);
+  }
+
+
+  /* =========================
+     FULLSCREEN MOBILE MENU
+     ========================= */
+
+  /*
+   * Этот элемент теперь приходит
+   * через createPortal(document.body).
+   *
+   * Он больше не является дочерним
+   * элементом fixed-header.
+   */
+
+  .mobileMenu {
+    position: fixed;
+
+    /*
+     * Выше всей страницы,
+     * но чуть ниже самой шапки,
+     * чтобы кнопкой МЕНЮ можно
+     * было закрыть экран.
+     */
+
+    z-index: 999;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100vh;
+    height: 100dvh;
+
+    display: flex;
+
+    box-sizing: border-box;
+
+    overflow-y: auto;
+
+    overscroll-behavior:
+      contain;
+
+    -webkit-overflow-scrolling:
+      touch;
+
+    padding:
+      calc(
+        116px +
+        env(safe-area-inset-top)
+      )
+      28px
+      calc(
+        28px +
+        env(safe-area-inset-bottom)
+      );
+
+    background:
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(120, 12, 16, 0.18),
+        transparent 40%
+      ),
+      #050505;
+
+    pointer-events: auto;
+
+    animation:
+      mobileMenuIn
+      240ms
+      ease-out
+      both;
+  }
+
+  .mobileMenuInner {
+    width: 100%;
+
+    min-height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+  }
+
+
+  /* MOBILE MENU LABEL */
+
+  .mobileLabel {
+    margin-bottom: 24px;
+
+    color:
+      rgba(237, 28, 36, 0.72);
+
+    font-family:
+      var(--font-manrope),
+      sans-serif;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: 0.26em;
+  }
+
+
+  /* MOBILE LINKS */
+
+  .mobileNav {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 5px;
+  }
+
+  .mobileLink {
+    position: relative;
+
+    display: block;
+
+    padding:
+      5px 0;
+
+    color:
+      rgba(245, 245, 243, 0.9);
+
+    font-family:
+      var(--font-hero),
+      sans-serif;
+
+    font-size:
+      clamp(
+        34px,
+        9.5vw,
+        46px
+      );
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    letter-spacing:
+      0.01em;
+
+    text-decoration: none;
+
+    touch-action:
+      manipulation;
+
+    -webkit-tap-highlight-color:
+      transparent;
+  }
+
+  .mobileActive {
+    color: #ed1c24;
+  }
+
+
+  /* MOBILE BOTTOM */
+
+  .mobileBottom {
+    margin-top: auto;
+
+    padding-top: 34px;
+  }
+
+  .mobileBooking {
+    width: 100%;
+
+    min-height: 58px;
+
+    box-sizing:
+      border-box;
+
+    padding:
+      0 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    border:
+      1px solid
+      #ed1c24;
+
+    background:
+      #ed1c24;
+
+    color: #fff;
+
+    font-family:
+      var(--font-manrope),
+      sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing:
+      0.12em;
+
+    text-decoration: none;
+
+    touch-action:
+      manipulation;
+
+    -webkit-tap-highlight-color:
+      transparent;
+  }
+
+  .mobileBooking span {
+    font-size: 17px;
+  }
+
+
+  /* MOBILE SOCIALS */
+
+  .mobileSocials {
+    margin-top: 22px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap:
+      14px
+      24px;
+  }
+
+  .mobileSocials a {
+    color:
+      rgba(245, 245, 243, 0.42);
+
+    font-family:
+      var(--font-manrope),
+      sans-serif;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing:
+      0.15em;
+
+    text-decoration: none;
+
+    touch-action:
+      manipulation;
+
+    -webkit-tap-highlight-color:
+      transparent;
+  }
+}
+
+
+/* =========================
+   MOBILE MENU ANIMATION
+   ========================= */
+
+@keyframes mobileMenuIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}

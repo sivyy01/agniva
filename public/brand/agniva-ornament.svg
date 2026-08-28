@@ -1,0 +1,60 @@
+<svg
+  width="1200"
+  height="40"
+  viewBox="0 0 1200 40"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="
+      M0 20
+      H110
+      L126 8
+      L142 20
+      L158 8
+      L174 20
+      H240
+
+      L260 4
+      L280 20
+      L300 4
+      L320 20
+      H420
+
+      L440 8
+      L456 20
+      L472 8
+      L488 20
+
+      H548
+      L566 4
+      L584 20
+      L600 6
+      L616 20
+      L634 4
+      L652 20
+      H712
+
+      L728 8
+      L744 20
+      L760 8
+      L776 20
+
+      H880
+      L900 4
+      L920 20
+      L940 4
+      L960 20
+      H1026
+
+      L1042 8
+      L1058 20
+      L1074 8
+      L1090 20
+      H1200
+    "
+    stroke="#ED1C24"
+    stroke-width="3"
+    stroke-linejoin="miter"
+  />
+</svg>
