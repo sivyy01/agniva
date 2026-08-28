@@ -566,8 +566,8 @@
 @media (max-width: 760px) {
 
  .hero {
-  height: 660px;
-  min-height: 660px;
+  height: 725px;
+  min-height: 725px;
 
   background:
     linear-gradient(
