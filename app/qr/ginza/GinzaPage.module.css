@@ -477,18 +477,34 @@
   .brandLogo {
     width: 185px;
   }
+.menuSection {
+  width:
+    calc(100% - 20px);
 
-  .menuSection {
-    width:
-      calc(100% - 20px);
+  margin:
+    0 auto;
 
-    margin:
-      0 auto;
+  padding:
+    18px 14px
+    20px;
 
-    padding:
-      18px 14px
-      20px;
-  }
+  border:
+    1px solid
+    rgba(237, 28, 36, 0.72);
+
+  background:
+    rgba(5, 5, 5, 0.48);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
+  backdrop-filter:
+    blur(12px);
+
+  box-shadow:
+    0 22px 50px
+    rgba(0, 0, 0, 0.38);
+}
 
   .menuEyebrow {
     margin-bottom: 12px;
@@ -504,9 +520,22 @@
   }
 
   .menuItem {
-    padding:
-      15px 14px;
-  }
+  padding:
+    15px 14px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+
+  background:
+    rgba(7, 7, 7, 0.42);
+
+  -webkit-backdrop-filter:
+    blur(8px);
+
+  backdrop-filter:
+    blur(8px);
+}
 
   .itemMain {
     gap: 12px;
