@@ -453,7 +453,7 @@
     padding-bottom: 20px;
 
     background-position:
-      69% 52%;
+        73% 52%;
   }
 
   .hero {
@@ -490,20 +490,20 @@
 
   border:
     1px solid
-    rgba(237, 28, 36, 0.72);
+    rgba(237, 28, 36, 0.78);
 
   background:
-    rgba(5, 5, 5, 0.48);
+    rgba(5, 5, 5, 0.16);
 
   -webkit-backdrop-filter:
-    blur(12px);
+    none;
 
   backdrop-filter:
-    blur(12px);
+    none;
 
   box-shadow:
     0 22px 50px
-    rgba(0, 0, 0, 0.38);
+    rgba(0, 0, 0, 0.24);
 }
 
   .menuEyebrow {
@@ -519,22 +519,22 @@
     gap: 10px;
   }
 
-  .menuItem {
+.menuItem {
   padding:
     15px 14px;
 
   border:
     1px solid
-    rgba(255, 255, 255, 0.1);
+    rgba(255, 255, 255, 0.12);
 
   background:
-    rgba(7, 7, 7, 0.42);
+    rgba(5, 5, 5, 0.18);
 
   -webkit-backdrop-filter:
-    blur(8px);
+    none;
 
   backdrop-filter:
-    blur(8px);
+    none;
 }
 
   .itemMain {
@@ -581,5 +581,29 @@
 
   .itemContact a {
     font-size: 16px;
+  }
+}
+
+@media (max-width: 760px) {
+  .heroShade {
+    display: none !important;
+  }
+
+  .heroSection::after {
+    display: none !important;
+  }
+
+  .menuSection {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  .menuItem {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
   }
 }
