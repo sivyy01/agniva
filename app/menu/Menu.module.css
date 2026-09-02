@@ -1421,16 +1421,17 @@ box-shadow:
 
     line-height: 1.35;
   }
-  .dishModal {
+.dishModal {
   padding: 14px;
 
-  align-items: flex-end;
+  align-items: center;
 }
 
 .dishModalCard {
   width: 100%;
+  max-width: 420px;
 
-  max-height: 90dvh;
+  max-height: 82dvh;
 
   grid-template-columns: 1fr;
 
@@ -1438,33 +1439,57 @@ box-shadow:
 }
 
 .dishModalImage {
-  min-height: 300px;
+  min-height: 0;
 
-  aspect-ratio: 4 / 3;
+  height: 190px;
+  aspect-ratio: auto;
+
+  background-size: cover;
+  background-position: center;
 }
 
 .dishModalContent {
   padding:
-    34px 24px
-    30px;
+    22px 20px
+    20px;
+}
+
+.dishModalLabel {
+  margin-bottom: 12px;
 }
 
 .dishModalContent h2 {
   font-size:
-    clamp(32px, 10vw, 44px);
+    clamp(26px, 7.5vw, 36px);
+
+  line-height: 1;
 }
 
 .dishModalContent p {
-  font-size: 12px;
+  margin-top: 14px;
+
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .dishModalMeta {
-  margin-top: 26px;
+  margin-top: 16px;
+
+  padding-top: 14px;
+}
+
+.dishModalMeta strong {
+  font-size: 19px;
 }
 
 .dishModalClose {
-  top: 12px;
-  right: 12px;
+  top: 8px;
+  right: 8px;
+
+  width: 36px;
+  height: 36px;
+
+  font-size: 20px;
 }
 
   .page::after {

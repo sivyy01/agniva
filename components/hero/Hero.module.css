@@ -771,11 +771,13 @@
   }
 
   .manifesto {
-  max-width: 340px;
+  width: 100%;
+  max-width: none;
 
   margin-top: auto;
 
-  padding-top: 16px;
+  padding-top: 14px;
+  padding-left: 14px;
 }
 
   .manifestoLabel {
@@ -787,13 +789,15 @@
   }
 
   .manifestoText {
-    font-size: 11px;
+  max-width: 100%;
 
-    line-height: 1.6;
+  font-size: 13px;
 
-    color:
-      rgba(245, 245, 243, 0.62);
-  }
+  line-height: 1.45;
+
+  color:
+    rgba(245, 245, 243, 0.68);
+}
 
   .manifestoText strong {
     font-size: 1.22em;
