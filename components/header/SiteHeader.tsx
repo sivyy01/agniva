@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 
 import {
   BOOKING_LINK,
+  DELIVERY_LINK,
   SOCIAL_LINKS,
 } from "@/lib/siteLinks";
 
@@ -57,12 +58,14 @@ export function SiteHeader() {
 
   const [mobileOpen, setMobileOpen] =
     useState(false);
-    const [mounted, setMounted] =
-  useState(false);
+  const [bookingOpen, setBookingOpen] =
+  useState(false); 
+  const [mounted, setMounted] =
+    useState(false);
 
-useEffect(() => {
-  setMounted(true);
-}, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     function handleScroll() {
@@ -168,11 +171,10 @@ useEffect(() => {
   return (
     <>
       <div
-        className={`${styles.shell} ${
-          scrolled
-            ? styles.scrolled
-            : ""
-        }`}
+        className={`${styles.shell} ${scrolled
+          ? styles.scrolled
+          : ""
+          }`}
       >
         <div
           className={
@@ -287,25 +289,49 @@ useEffect(() => {
               </a>
             )}
 
-            <a
-              href={BOOKING_LINK}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.booking}
-            >
-              ЗАБРОНИРОВАТЬ
-            </a>
+            <div className={styles.bookingWrap}>
+  <button
+    type="button"
+    className={styles.booking}
+    onClick={() =>
+      setBookingOpen((current) => !current)
+    }
+    aria-expanded={bookingOpen}
+  >
+    ЗАБРОНИРОВАТЬ
+  </button>
+
+  {bookingOpen && (
+    <div className={styles.bookingPopover}>
+      <span>БРОНИРОВАНИЕ</span>
+
+      <strong>
+        +7 923 030-11-77
+      </strong>
+
+      <button
+        type="button"
+        onClick={() =>
+          navigator.clipboard.writeText(
+            "+79230301177"
+          )
+        }
+      >
+        СКОПИРОВАТЬ НОМЕР
+      </button>
+    </div>
+  )}
+</div>
           </div>
 
           {/* MOBILE BURGER */}
 
           <button
             type="button"
-            className={`${styles.menuButton} ${
-              mobileOpen
-                ? styles.menuButtonOpen
-                : ""
-            }`}
+            className={`${styles.menuButton} ${mobileOpen
+              ? styles.menuButtonOpen
+              : ""
+              }`}
             aria-label={
               mobileOpen
                 ? "Закрыть меню"
@@ -325,7 +351,7 @@ useEffect(() => {
 
         {/* MOBILE MENU */}
 
-      {mounted && mobileOpen && createPortal(
+        {mounted && mobileOpen && createPortal(
           <div
             className={styles.mobileMenu}
           >
@@ -350,15 +376,13 @@ useEffect(() => {
               >
                 {navItems.map(
                   (item) => {
-                    const className = `${
-                      styles.mobileLink
-                    } ${
-                      isActive(
+                    const className = `${styles.mobileLink
+                      } ${isActive(
                         item.href
                       )
                         ? styles.mobileActive
                         : ""
-                    }`;
+                      }`;
 
                     if (item.section) {
                       const sectionId =
@@ -445,11 +469,7 @@ useEffect(() => {
               >
                 <a
                   href={BOOKING_LINK}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={
-                    styles.mobileBooking
-                  }
+                  className={styles.mobileBooking}
                 >
                   ЗАБРОНИРОВАТЬ
                   <span>↗</span>
@@ -496,7 +516,7 @@ useEffect(() => {
                     </a>
                   )}
                 </div>
-                           </div>
+              </div>
             </div>
           </div>,
           document.body
@@ -504,9 +524,9 @@ useEffect(() => {
       </div>
 
       {pathname !== "/" && (
-  <div className={styles.spacer} />
-)}
-      
+        <div className={styles.spacer} />
+      )}
+
     </>
   );
 }

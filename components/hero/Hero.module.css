@@ -3,17 +3,13 @@
   min-height: 680px;
 
   background:
-    linear-gradient(
-      180deg,
+    linear-gradient(180deg,
       rgba(5, 5, 5, 0.04) 0%,
       rgba(5, 5, 5, 0.08) 18%,
       rgba(5, 5, 5, 0.22) 42%,
       rgba(5, 5, 5, 0.68) 72%,
-      #050505 100%
-    ),
-    url("/images/hero-bg.png")
-    76% 20% / 108% auto
-    no-repeat,
+      #050505 100%),
+    url("/images/hero-bg.png") 76% 20% / 108% auto no-repeat,
     #050505;
 }
 
@@ -28,17 +24,13 @@
   pointer-events: none;
 
   background:
-    radial-gradient(
-      40% 50% at 28% 78%,
+    radial-gradient(40% 50% at 28% 78%,
       rgba(237, 28, 36, 0.1),
-      transparent 70%
-    ),
-    linear-gradient(
-      180deg,
+      transparent 70%),
+    linear-gradient(180deg,
       rgba(0, 0, 0, 0.08),
       transparent 30%,
-      rgba(0, 0, 0, 0.14)
-    );
+      rgba(0, 0, 0, 0.14));
 }
 
 /* =========================
@@ -59,17 +51,14 @@
   display: grid;
 
   grid-template-columns:
-    minmax(220px, 320px)
-    1fr
-    auto;
+    minmax(220px, 320px) 1fr auto;
 
   align-items: center;
 
   gap: 36px;
 
   padding:
-    20px
-    clamp(34px, 4vw, 72px);
+    20px clamp(34px, 4vw, 72px);
 }
 
 .headerLogo {
@@ -85,8 +74,7 @@
   height: auto;
 
   filter:
-    brightness(0)
-    invert(1);
+    brightness(0) invert(1);
 }
 
 .nav {
@@ -132,8 +120,7 @@
     0 28px;
 
   border:
-    1px solid
-    rgba(237, 28, 36, 0.72);
+    1px solid rgba(237, 28, 36, 0.72);
 
   color: #f5f5f3;
 
@@ -184,9 +171,7 @@
   margin-bottom: 28px;
 
   background:
-    url("/brand/agniva-title-ornament.svg")
-    left center / 100% 100%
-    no-repeat;
+    url("/brand/agniva-title-ornament.svg") left center / 100% 100% no-repeat;
 }
 
 .title {
@@ -206,6 +191,7 @@
   text-shadow:
     0 8px 28px rgba(0, 0, 0, 0.45);
 }
+
 /* =========================
    DIRECTIONS
    ========================= */
@@ -299,19 +285,15 @@
   color: #ffffff;
 
   border:
-    1px solid
-    #ed1c24;
+    1px solid #ed1c24;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #ed1c24,
-      #b90f17
-    );
+      #b90f17);
 
   box-shadow:
-    0 8px 30px
-    rgba(237, 28, 36, 0.12);
+    0 8px 30px rgba(237, 28, 36, 0.12);
 }
 
 .secondaryButton {
@@ -319,8 +301,7 @@
     rgba(245, 245, 243, 0.86);
 
   border:
-    1px solid
-    rgba(237, 28, 36, 0.6);
+    1px solid rgba(237, 28, 36, 0.6);
 
   background:
     rgba(0, 0, 0, 0.12);
@@ -330,6 +311,104 @@
 .secondaryButton:hover {
   transform:
     translateY(-2px);
+}
+
+.bookingWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.desktopBookingButton {
+  display: inline-flex;
+  cursor: pointer;
+  appearance: none;
+}
+
+.mobileBookingButton {
+  display: none;
+}
+
+.bookingPopover {
+  position: absolute;
+
+  top: calc(100% + 12px);
+  right: 0;
+
+  z-index: 30;
+
+  width: 250px;
+
+  padding: 18px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  background:
+    rgba(8, 8, 8, 0.96);
+
+  border:
+    1px solid rgba(237, 28, 36, 0.55);
+
+  box-shadow:
+    0 18px 55px rgba(0, 0, 0, 0.42);
+
+  backdrop-filter: blur(14px);
+}
+
+.bookingPopover>span {
+  margin-bottom: 8px;
+
+  color:
+    rgba(255, 255, 255, 0.42);
+
+  font-family:
+    var(--font-main),
+    sans-serif;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  letter-spacing: 0.18em;
+}
+
+.bookingPopover>strong {
+  color: #fff;
+
+  font-family:
+    var(--font-main),
+    sans-serif;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  letter-spacing: 0.02em;
+}
+
+.bookingPopover>button {
+  margin-top: 14px;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  color: #ed1c24;
+
+  font-family:
+    var(--font-main),
+    sans-serif;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  letter-spacing: 0.14em;
+
+  cursor: pointer;
+}
+
+.bookingPopover>button:hover {
+  color: #fff;
 }
 
 .secondaryButton:hover {
@@ -364,8 +443,7 @@
   border-top: 0;
 
   border-left:
-    1px solid
-    rgba(237, 28, 36, 0.42);
+    1px solid rgba(237, 28, 36, 0.42);
 }
 
 .manifestoLabel {
@@ -401,8 +479,7 @@
   flex: 0 0 7px;
 
   border:
-    1px solid
-    #ed1c24;
+    1px solid #ed1c24;
 
   transform:
     rotate(45deg);
@@ -461,12 +538,10 @@
   pointer-events: none;
 
   background:
-    repeating-linear-gradient(
-      45deg,
+    repeating-linear-gradient(45deg,
       transparent 0 20px,
       rgba(160, 160, 160, 0.42) 20px 28px,
-      transparent 28px 48px
-    );
+      transparent 28px 48px);
 }
 
 .sidePatternLeft {
@@ -510,12 +585,10 @@
   height: 14px;
 
   border-right:
-    1px solid
-    #ed1c24;
+    1px solid #ed1c24;
 
   border-bottom:
-    1px solid
-    #ed1c24;
+    1px solid #ed1c24;
 
   transform:
     rotate(45deg);
@@ -565,24 +638,20 @@
    ========================= */
 @media (max-width: 760px) {
 
- .hero {
-  height: 725px;
-  min-height: 725px;
+  .hero {
+    height: max(725px, 100svh);
+    min-height: 100svh;
 
-  background:
-    linear-gradient(
-      180deg,
-      rgba(5, 5, 5, 0.04) 0%,
-      rgba(5, 5, 5, 0.08) 18%,
-      rgba(5, 5, 5, 0.16) 44%,
-      rgba(5, 5, 5, 0.48) 76%,
-      #050505 100%
-    ),
-    url("/images/hero-bg.png")
-82% 46% / cover
-no-repeat,
-    #050505;
-}
+    background:
+      linear-gradient(180deg,
+        rgba(5, 5, 5, 0.04) 0%,
+        rgba(5, 5, 5, 0.08) 18%,
+        rgba(5, 5, 5, 0.16) 44%,
+        rgba(5, 5, 5, 0.48) 76%,
+        #050505 100%),
+      url("/images/hero-bg.png") 82% 46% / cover no-repeat,
+      #050505;
+  }
 
   /*
    * Верх специально оставляем
@@ -592,18 +661,16 @@ no-repeat,
    */
   .hero::after {
     background:
-      radial-gradient(
-        48% 44% at 22% 76%,
+      radial-gradient(48% 44% at 22% 76%,
         rgba(237, 28, 36, 0.12),
-        transparent 72%
-      ),
-      linear-gradient(
-        180deg,
+        transparent 72%),
+      linear-gradient(180deg,
         transparent 0%,
         rgba(0, 0, 0, 0.03) 25%,
-        rgba(0, 0, 0, 0.14) 100%
-      );
+        rgba(0, 0, 0, 0.14) 100%);
   }
+
+
 
   /*
    * Главный блок больше не
@@ -617,7 +684,7 @@ no-repeat,
     right: 20px;
 
     top: 29svh;
-    bottom: auto;
+    bottom: 28px;
 
     width: auto;
     height: auto;
@@ -653,11 +720,11 @@ no-repeat,
    * ДЫМНАЯ КУЛЬТУРА
    */
   .directions {
-  margin-top: 24px;
-  gap: 9px 11px;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-}
+    margin-top: 24px;
+    gap: 9px 11px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
 
   .directions i {
     width: 6px;
@@ -668,10 +735,22 @@ no-repeat,
    * Кнопки тоже подтягиваем
    * ближе к основному тексту.
    */
- .actions {
-  gap: 12px;
-  margin-top: 24px;
-}
+  .actions {
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .desktopBookingButton {
+    display: none;
+  }
+
+  .mobileBookingButton {
+    display: inline-flex;
+  }
+
+  .bookingPopover {
+    display: none;
+  }
 
   .primaryButton,
   .secondaryButton {
@@ -694,31 +773,31 @@ no-repeat,
   .manifesto {
   max-width: 340px;
 
-  margin-top: 26px;
+  margin-top: auto;
 
   padding-top: 16px;
 }
 
-.manifestoLabel {
-  margin-bottom: 10px;
+  .manifestoLabel {
+    margin-bottom: 10px;
 
-  font-size: 10px;
+    font-size: 10px;
 
-  letter-spacing: 0.17em;
-}
+    letter-spacing: 0.17em;
+  }
 
-.manifestoText {
-  font-size: 11px;
+  .manifestoText {
+    font-size: 11px;
 
-  line-height: 1.6;
+    line-height: 1.6;
 
-  color:
-    rgba(245, 245, 243, 0.62);
-}
+    color:
+      rgba(245, 245, 243, 0.62);
+  }
 
-.manifestoText strong {
-  font-size: 1.22em;
-}
+  .manifestoText strong {
+    font-size: 1.22em;
+  }
 
 }
 
@@ -729,17 +808,13 @@ no-repeat,
 @media (min-width: 1101px) {
   .hero {
     background:
-      linear-gradient(
-        180deg,
+      linear-gradient(180deg,
         rgba(5, 5, 5, 0.03) 0%,
         rgba(5, 5, 5, 0.06) 18%,
         rgba(5, 5, 5, 0.16) 42%,
         rgba(5, 5, 5, 0.52) 74%,
-        #050505 100%
-      ),
-      url("/images/hero-bg.png")
-      center 20% / 100% auto
-      no-repeat,
+        #050505 100%),
+      url("/images/hero-bg.png") center 20% / 100% auto no-repeat,
       #050505;
   }
 
@@ -756,6 +831,7 @@ no-repeat,
 }
 
 @media (min-width: 1101px) {
+
   .sidePatternLeft,
   .sidePatternRight {
     display: none;
@@ -771,8 +847,7 @@ no-repeat,
     padding-left: 20px;
 
     border-left:
-      1px solid
-      rgba(237, 28, 36, 0.5);
+      1px solid rgba(237, 28, 36, 0.5);
   }
 
   .manifestoLabel {
@@ -834,4 +909,3 @@ no-repeat,
     letter-spacing: 0.13em;
   }
 }
-

@@ -216,7 +216,7 @@ padding:
   clamp(30px, 3.5vw, 48px)
   38px;
 
-  overflow: hidden;
+  overflow: visible;
 
   border:
     1px solid
@@ -370,6 +370,105 @@ padding:
     translateY(-2px);
 }
 
+.bookingAction {
+  position: relative;
+  display: inline-flex;
+}
+
+.desktopBookingButton {
+  display: inline-flex;
+  cursor: pointer;
+  appearance: none;
+}
+
+.mobileBookingButton {
+  display: none;
+}
+
+.bookingPopover {
+  position: absolute;
+
+  left: 0;
+  top: calc(100% + 12px);
+
+  z-index: 20;
+
+  width: 250px;
+
+  padding: 18px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  background: rgba(8, 8, 8, 0.96);
+
+  border:
+    1px solid
+    rgba(237, 28, 36, 0.55);
+
+  box-shadow:
+    0 18px 55px
+    rgba(0, 0, 0, 0.42);
+
+  backdrop-filter: blur(14px);
+}
+
+.bookingPopover > span {
+  margin-bottom: 8px;
+
+  color:
+    rgba(255, 255, 255, 0.42);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  letter-spacing: 0.18em;
+}
+
+.bookingPopover > strong {
+  color: #fff;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  letter-spacing: 0.02em;
+}
+
+.bookingPopover > button {
+  margin-top: 14px;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  color: #ed1c24;
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  letter-spacing: 0.14em;
+
+  cursor: pointer;
+}
+
+.bookingPopover > button:hover {
+  color: #fff;
+}
+
 /* BOTTOM */
 .bottom {
   width: 100%;
@@ -411,6 +510,38 @@ padding:
   font-size: 9px;
 
   letter-spacing: 0.18em;
+}
+
+.legalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  color:
+    rgba(242, 240, 236, 0.28);
+
+  font-family:
+    var(--font-manrope),
+    sans-serif;
+
+  font-size: 8px;
+  line-height: 1.5;
+
+  letter-spacing: 0.08em;
+}
+
+.legalInfo a {
+  color:
+    rgba(242, 240, 236, 0.38);
+
+  text-decoration: none;
+
+  transition:
+    color 180ms ease;
+}
+
+.legalInfo a:hover {
+  color: #ed1c24;
 }
 
 
@@ -540,6 +671,10 @@ padding:
     20px
     28px;
 }
+.legalInfo {
+  font-size: 8px;
+  line-height: 1.6;
+}
 
   .inner {
     display: block;
@@ -584,6 +719,18 @@ padding:
   flex-direction: column;
 
   align-items: flex-start;
+}
+
+.desktopBookingButton {
+  display: none;
+}
+
+.mobileBookingButton {
+  display: inline-flex;
+}
+
+.bookingPopover {
+  display: none;
 }
 
 .brandFooter {

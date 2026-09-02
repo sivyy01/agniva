@@ -48,6 +48,8 @@ type MenuItem = {
   description: string;
   price: string;
   image: string | null;
+  weight: number | null;
+  unit: string | null;
 };
 
 type MenuTab =
@@ -74,23 +76,23 @@ const tabs: {
   id: MenuTab;
   label: string;
 }[] = [
-  {
-    id: "all",
-    label: "ВСЕ",
-  },
-  {
-    id: "kitchen",
-    label: "КУХНЯ",
-  },
-  {
-    id: "bar",
-    label: "БАР",
-  },
-  {
-    id: "smoke",
-    label: "ДЫМНАЯ КУЛЬТУРА",
-  },
-];
+    {
+      id: "all",
+      label: "ВСЕ",
+    },
+    {
+      id: "kitchen",
+      label: "КУХНЯ",
+    },
+    {
+      id: "bar",
+      label: "БАР",
+    },
+    {
+      id: "smoke",
+      label: "ДЫМНАЯ КУЛЬТУРА",
+    },
+  ];
 
 /*
  * Собираем все позиции категории
@@ -150,32 +152,47 @@ function mapMenuItem(
     price:
       formatPrice(item.price),
 
-    image:
-      item.image,
+    image: item.image,
+
+    weight: item.weight,
+
+    unit: item.unit,
   };
 }
 
 function MenuCard({
   item,
+  onOpen,
 }: {
   item: MenuItem;
+  onOpen: (item: MenuItem) => void;
 }) {
   return (
-    <article className={styles.card}>
+    <article
+      className={styles.card}
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpen(item)}
+      onKeyDown={(event) => {
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+          event.preventDefault();
+          onOpen(item);
+        }
+      }}
+    >
       <div
         className={styles.cardImage}
         style={
           item.image
             ? {
-                backgroundImage:
-                  `url("${item.image}")`,
-
-                backgroundSize:
-                  "cover",
-
-                backgroundPosition:
-                  "center",
-              }
+              backgroundImage:
+                `url("${item.image}")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
             : undefined
         }
       >
@@ -195,18 +212,14 @@ function MenuCard({
           <h3>{item.name}</h3>
 
           {item.price && (
-            <span
-              className={styles.price}
-            >
+            <span className={styles.price}>
               {item.price}
             </span>
           )}
         </div>
 
         {item.description && (
-          <p>
-            {item.description}
-          </p>
+          <p>{item.description}</p>
         )}
 
         <span className={styles.arrow}>
@@ -216,19 +229,20 @@ function MenuCard({
     </article>
   );
 }
-
 function MenuColumn({
   title,
   items,
   icon,
   showViewAll = true,
   onViewAll,
+  onItemOpen,
 }: {
   title: string;
   items: MenuItem[];
   icon: string;
   showViewAll?: boolean;
   onViewAll?: () => void;
+  onItemOpen: (item: MenuItem) => void;
 }) {
   return (
     <section className={styles.column}>
@@ -243,9 +257,8 @@ function MenuColumn({
           }
         >
           <span
-            className={`${styles.columnIcon} ${
-              styles[`icon-${icon}`]
-            }`}
+            className={`${styles.columnIcon} ${styles[`icon-${icon}`]
+              }`}
             aria-hidden="true"
           />
 
@@ -270,6 +283,7 @@ function MenuColumn({
           <MenuCard
             key={item.id}
             item={item}
+            onOpen={onItemOpen}
           />
         ))}
       </div>
@@ -283,7 +297,9 @@ export default function MenuPage() {
     setActiveTab,
   ] =
     useState<MenuTab>("all");
-      function changeTab(
+  const [selectedItem, setSelectedItem] =
+  useState<MenuItem | null>(null);
+  function changeTab(
     tab: MenuTab
   ) {
     setActiveTab(tab);
@@ -349,47 +365,47 @@ export default function MenuPage() {
    * публичное меню.
    */
   useEffect(() => {
-  async function loadMenu() {
-    try {
-      setLoading(true);
-      setError(null);
+    async function loadMenu() {
+      try {
+        setLoading(true);
+        setError(null);
 
-      const response =
-        await fetch("/api/menu", {
-          cache: "no-store",
-        });
+        const response =
+          await fetch("/api/menu", {
+            cache: "no-store",
+          });
 
-      const data =
-        (await response.json()) as ApiResponse;
+        const data =
+          (await response.json()) as ApiResponse;
 
-      if (
-        !response.ok ||
-        !data.ok ||
-        !data.menu
-      ) {
-        throw new Error(
-          data.error ??
+        if (
+          !response.ok ||
+          !data.ok ||
+          !data.menu
+        ) {
+          throw new Error(
+            data.error ??
             "Не удалось загрузить меню"
+          );
+        }
+
+        setMenu(data.menu);
+      } catch (error) {
+        console.error(
+          "Menu loading error:",
+          error
         );
+
+        setError(
+          "Не удалось загрузить меню"
+        );
+      } finally {
+        setLoading(false);
       }
-
-      setMenu(data.menu);
-    } catch (error) {
-      console.error(
-        "Menu loading error:",
-        error
-      );
-
-      setError(
-        "Не удалось загрузить меню"
-      );
-    } finally {
-      setLoading(false);
     }
-  }
 
-  loadMenu();
-}, []);
+    loadMenu();
+  }, []);
 
   /*
    * Ищем три публичных
@@ -553,8 +569,8 @@ export default function MenuPage() {
       () =>
         kitchenCategory
           ? collectItems(
-              kitchenCategory
-            ).map(mapMenuItem)
+            kitchenCategory
+          ).map(mapMenuItem)
           : [],
       [kitchenCategory]
     );
@@ -564,8 +580,8 @@ export default function MenuPage() {
       () =>
         barCategory
           ? collectItems(
-              barCategory
-            ).map(mapMenuItem)
+            barCategory
+          ).map(mapMenuItem)
           : [],
       [barCategory]
     );
@@ -575,8 +591,8 @@ export default function MenuPage() {
       () =>
         smokeCategory
           ? collectItems(
-              smokeCategory
-            ).map(mapMenuItem)
+            smokeCategory
+          ).map(mapMenuItem)
           : [],
       [smokeCategory]
     );
@@ -598,8 +614,8 @@ export default function MenuPage() {
       ? kitchenItems.slice(0, 3)
       : selectedKitchenCategory
         ? collectItems(
-            selectedKitchenCategory
-          ).map(mapMenuItem)
+          selectedKitchenCategory
+        ).map(mapMenuItem)
         : [];
 
   const visibleBarItems =
@@ -607,8 +623,8 @@ export default function MenuPage() {
       ? barItems.slice(0, 3)
       : selectedBarCategory
         ? collectItems(
-            selectedBarCategory
-          ).map(mapMenuItem)
+          selectedBarCategory
+        ).map(mapMenuItem)
         : [];
 
   const visibleSmokeItems =
@@ -616,8 +632,8 @@ export default function MenuPage() {
       ? smokeItems.slice(0, 3)
       : selectedSmokeCategory
         ? collectItems(
-            selectedSmokeCategory
-          ).map(mapMenuItem)
+          selectedSmokeCategory
+        ).map(mapMenuItem)
         : [];
 
   return (
@@ -637,11 +653,11 @@ export default function MenuPage() {
                   key={tab.id}
                   type="button"
                   onClick={() =>
-  changeTab(tab.id)
-}
+                    changeTab(tab.id)
+                  }
                   className={
                     activeTab ===
-                    tab.id
+                      tab.id
                       ? styles.tabActive
                       : ""
                   }
@@ -686,15 +702,87 @@ export default function MenuPage() {
         </section>
       )}
 
-      {!loading && error && (
-        <section
-          className={
-            styles.menuGrid
-          }
-        >
-          <p>{error}</p>
-        </section>
-      )}
+     {!loading && error && (
+  <section
+    className={styles.menuGrid}
+  >
+    <p>{error}</p>
+  </section>
+)}
+
+{selectedItem && (
+  <div
+    className={styles.dishModal}
+    onClick={() =>
+      setSelectedItem(null)
+    }
+  >
+    <article
+      className={styles.dishModalCard}
+      onClick={(event) =>
+        event.stopPropagation()
+      }
+    >
+      <button
+        type="button"
+        className={styles.dishModalClose}
+        onClick={() =>
+          setSelectedItem(null)
+        }
+        aria-label="Закрыть"
+      >
+        ×
+      </button>
+
+      <div
+        className={styles.dishModalImage}
+        style={
+          selectedItem.image
+            ? {
+                backgroundImage:
+                  `url("${selectedItem.image}")`,
+              }
+            : undefined
+        }
+      >
+        {!selectedItem.image && (
+          <span>АГНИВА</span>
+        )}
+      </div>
+
+      <div className={styles.dishModalContent}>
+        <span className={styles.dishModalLabel}>
+          АГНИВА · МЕНЮ
+        </span>
+
+        <h2>{selectedItem.name}</h2>
+
+        {selectedItem.description && (
+          <p>{selectedItem.description}</p>
+        )}
+
+        <div className={styles.dishModalMeta}>
+          {selectedItem.weight !== null && (
+            <span>
+              {selectedItem.weight}
+              {selectedItem.unit
+                ? ` ${selectedItem.unit}`
+                : ""}
+            </span>
+          )}
+
+          {selectedItem.price && (
+            <strong>
+              {selectedItem.price}
+            </strong>
+          )}
+        </div>
+      </div>
+    </article>
+  </div>
+)}
+
+        
 
       {!loading &&
         !error &&
@@ -788,7 +876,7 @@ export default function MenuPage() {
 
             {selectedBarGroup &&
               selectedBarGroup.children.length >
-                0 && (
+              0 && (
                 <div
                   className={styles.tabs}
                 >
@@ -877,74 +965,75 @@ export default function MenuPage() {
         !error &&
         menu && (
           <section
-            className={`${
-              styles.menuGrid
-            } ${
-              activeTab !==
-              "all"
+            className={`${styles.menuGrid
+              } ${activeTab !==
+                "all"
                 ? styles.menuGridFiltered
                 : ""
-            }`}
+              }`}
           >
             {(activeTab ===
               "all" ||
               activeTab ===
-                "kitchen") && (
-              <MenuColumn
-                title="КУХНЯ"
-                icon="kitchen"
-                items={
-                  visibleKitchenItems
-                }
-                showViewAll={
-                  activeTab ===
-                  "all"
-                }
-               onViewAll={() =>
-  changeTab("kitchen")
-}
-              />
-            )}
+              "kitchen") && (
+                <MenuColumn
+                  title="КУХНЯ"
+                  icon="kitchen"
+                  items={
+                    visibleKitchenItems
+                  }
+                  showViewAll={
+                    activeTab ===
+                    "all"
+                  }
+                  onViewAll={() =>
+                    changeTab("kitchen")
+                  }
+                  onItemOpen={setSelectedItem}
+                />
+              )}
 
             {(activeTab ===
               "all" ||
               activeTab ===
-                "bar") && (
-              <MenuColumn
-                title="БАР"
-                icon="bar"
-                items={
-                  visibleBarItems
-                }
-                showViewAll={
-                  activeTab ===
-                  "all"
-                }
-                onViewAll={() =>
-  changeTab("bar")
-}
-              />
-            )}
+              "bar") && (
+                <MenuColumn
+                  title="БАР"
+                  icon="bar"
+                  items={
+                    visibleBarItems
+                  }
+                  showViewAll={
+                    activeTab ===
+                    "all"
+                  }
+                  onViewAll={() =>
+                    changeTab("bar")
+                  }
+                  onItemOpen={setSelectedItem}
+                />
+              )}
 
             {(activeTab ===
               "all" ||
               activeTab ===
-                "smoke") && (
-              <MenuColumn
-                title="ДЫМНАЯ КУЛЬТУРА"
-                icon="smoke"
-                items={
-                  visibleSmokeItems
-                }
-                showViewAll={
-                  activeTab ===
-                  "all"
-                }
-                onViewAll={() =>
-  changeTab("smoke")
-}
-              />
-            )}
+              "smoke") && (
+                <MenuColumn
+                  title="ДЫМНАЯ КУЛЬТУРА"
+                  icon="smoke"
+                  items={
+                    visibleSmokeItems
+                  }
+                  showViewAll={
+                    activeTab ===
+                    "all"
+                  }
+                  onViewAll={() =>
+                    changeTab("smoke")
+                  }
+                  onItemOpen={setSelectedItem}
+                />
+              )}
           </section>
         )}
 

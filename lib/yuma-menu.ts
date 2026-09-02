@@ -167,6 +167,7 @@ function getItemImage(
     )?.imageUri ?? null
   );
 }
+  
 
 /*
  * Рекурсивно собираем ID:

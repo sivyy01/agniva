@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import {
   BOOKING_LINK,
   SOCIAL_LINKS,
@@ -8,6 +10,9 @@ import styles from "./ContactsSection.module.css";
 
 
 export function ContactsSection() {
+  const [bookingOpen, setBookingOpen] =
+    useState(false);
+
   return (
     <section
       id="contacts"
@@ -124,15 +129,47 @@ export function ContactsSection() {
               к вашему приходу.
             </p>
 
-            <a
-              href={BOOKING_LINK}
-target="_blank"
-rel="noreferrer"
-              className={styles.bookingButton}
-            >
-              ЗАБРОНИРОВАТЬ
-              <span>→</span>
-            </a>
+            <div className={styles.bookingAction}>
+  <a
+    href={BOOKING_LINK}
+    className={`${styles.bookingButton} ${styles.mobileBookingButton}`}
+  >
+    ЗАБРОНИРОВАТЬ
+    <span>→</span>
+  </a>
+
+  <button
+    type="button"
+    className={`${styles.bookingButton} ${styles.desktopBookingButton}`}
+    onClick={() =>
+      setBookingOpen((current) => !current)
+    }
+  >
+    ЗАБРОНИРОВАТЬ
+    <span>→</span>
+  </button>
+
+  {bookingOpen && (
+    <div className={styles.bookingPopover}>
+      <span>БРОНИРОВАНИЕ</span>
+
+      <strong>
+        +7 923 030-11-77
+      </strong>
+
+      <button
+        type="button"
+        onClick={() => {
+          void navigator.clipboard.writeText(
+            "+79230301177"
+          );
+        }}
+      >
+        СКОПИРОВАТЬ НОМЕР
+      </button>
+    </div>
+  )}
+</div>
           </div>
         </div>
       </div>
@@ -148,6 +185,22 @@ rel="noreferrer"
     <span>
       НОВОКУЗНЕЦК
     </span>
+  </div>
+
+  <div className={styles.legalInfo}>
+    <span>ООО «РЕСТОБАР»</span>
+
+    <span>
+      ИНН 4217213530 · ОГРН 1254200010745
+    </span>
+
+    <span>
+      г. Новокузнецк, ул. Тольятти, д. 72, кв. 4
+    </span>
+
+    <a href="mailto:42restobar@gmail.com">
+      42restobar@gmail.com
+    </a>
   </div>
 
   <a

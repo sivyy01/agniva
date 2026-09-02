@@ -8,4 +8,7 @@ export const SOCIAL_LINKS = {
 };
 
 export const BOOKING_LINK =
-  "https://agniva.room-connect.ru";
+  "tel:+79230301177";
+
+export const DELIVERY_LINK =
+  "https://агнива.рус/2e70364a-f927-4b20-c941-f90208aee4ae/shop";
