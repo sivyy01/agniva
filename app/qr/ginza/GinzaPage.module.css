@@ -465,14 +465,14 @@
   }
 
   .heroShade {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(5, 5, 5, 0.1) 0%,
-        rgba(5, 5, 5, 0.34) 42%,
-        rgba(5, 5, 5, 0.88) 100%
-      );
-  }
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 5, 5, 0.08) 0%,
+      rgba(5, 5, 5, 0.18) 42%,
+      rgba(5, 5, 5, 0.38) 100%
+    );
+}
 
   .brandLogo {
     width: 185px;
