@@ -1076,20 +1076,15 @@ export default function MenuPage() {
                   <div className={styles.dishVariants}>
                     {selectedItem.variants.map(
                       (variant) => (
-                        <div
+                        <button
                           key={variant.id}
-                          className={
-                            styles.dishVariant
-                          }
+                          type="button"
+                          className={styles.dishVariant}
                         >
-                          <span>
-                            {variant.label}
-                          </span>
+                          <span>{variant.label}</span>
 
-                          <strong>
-                            {variant.price}
-                          </strong>
-                        </div>
+                          <strong>{variant.price}</strong>
+                        </button>
                       )
                     )}
                   </div>
@@ -1156,11 +1151,12 @@ export default function MenuPage() {
                   )
                 )}
 
-                {selectedItem.price && (
-                  <strong>
-                    {selectedItem.price}
-                  </strong>
-                )}
+                {selectedItem.price &&
+                  !selectedItem.variants?.length && (
+                    <strong>
+                      {selectedItem.price}
+                    </strong>
+                  )}
               </div>
             </div>
           </article>
