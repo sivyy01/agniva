@@ -163,8 +163,23 @@ const HIDDEN_PUBLIC_ITEM_NAMES = new Set([
 function isPublicMenuItem(
   item: ApiMenuItem
 ) {
-  return !HIDDEN_PUBLIC_ITEM_NAMES.has(
-    item.name.trim()
+  const name =
+    item.name.trim();
+
+  const isHiddenByName =
+    HIDDEN_PUBLIC_ITEM_NAMES.has(
+      name
+    );
+
+  const isGiftItem =
+    item.price === 0 &&
+    name.toLowerCase().includes(
+      "подарок"
+    );
+
+  return (
+    !isHiddenByName &&
+    !isGiftItem
   );
 }
 
