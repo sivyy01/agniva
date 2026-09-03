@@ -71,6 +71,87 @@ const ROOT_IDS = {
   smoke:
     "47a9373e-de06-4dfa-c830-7d8515a14dcd",
 } as const;
+const BUSINESS_LUNCH_CATEGORY_ID =
+  "b2e7ac69-3039-4090-e71d-001a2acfcf1d";
+
+const NOVOKUZNETSK_TIME_ZONE =
+  "Asia/Novokuznetsk";
+function isBusinessLunchAvailable(
+  date: Date
+) {
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-GB",
+      {
+        timeZone:
+          NOVOKUZNETSK_TIME_ZONE,
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+      }
+    ).formatToParts(date);
+
+  const weekday =
+    parts.find(
+      (part) =>
+        part.type === "weekday"
+    )?.value;
+
+  const hour = Number(
+    parts.find(
+      (part) =>
+        part.type === "hour"
+    )?.value ?? 0
+  );
+
+  const minute = Number(
+    parts.find(
+      (part) =>
+        part.type === "minute"
+    )?.value ?? 0
+  );
+
+  const isWeekday = [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+  ].includes(weekday ?? "");
+
+  const totalMinutes =
+    hour * 60 + minute;
+
+  return (
+    isWeekday &&
+    totalMinutes >= 12 * 60 &&
+    totalMinutes < 16 * 60
+  );
+}
+function filterBusinessLunch(
+  category: ApiMenuCategory,
+  isAvailable: boolean
+): ApiMenuCategory {
+  return {
+    ...category,
+
+    children:
+      category.children
+        .filter(
+          (child) =>
+            isAvailable ||
+            child.id !==
+              BUSINESS_LUNCH_CATEGORY_ID
+        )
+        .map((child) =>
+          filterBusinessLunch(
+            child,
+            isAvailable
+          )
+        ),
+  };
+}
 
 const tabs: {
   id: MenuTab;
@@ -295,10 +376,53 @@ export default function MenuPage() {
   const [
     activeTab,
     setActiveTab,
-  ] =
-    useState<MenuTab>("all");
-  const [selectedItem, setSelectedItem] =
-  useState<MenuItem | null>(null);
+  ] = useState<MenuTab>("all");
+
+  const [
+    selectedItem,
+    setSelectedItem,
+  ] = useState<MenuItem | null>(null);
+
+  const [
+    currentTime,
+    setCurrentTime,
+  ] = useState<Date | null>(null);
+
+  const [
+    activeKitchenCategoryId,
+    setActiveKitchenCategoryId,
+  ] = useState<string | null>(null);
+
+  const [
+    activeBarGroupId,
+    setActiveBarGroupId,
+  ] = useState<string | null>(null);
+
+  const [
+    activeBarCategoryId,
+    setActiveBarCategoryId,
+  ] = useState<string | null>(null);
+
+  const [
+    activeSmokeCategoryId,
+    setActiveSmokeCategoryId,
+  ] = useState<string | null>(null);
+
+  const [
+    menu,
+    setMenu,
+  ] = useState<ApiMenu | null>(null);
+
+  const [
+    loading,
+    setLoading,
+  ] = useState(true);
+
+  const [
+    error,
+    setError,
+  ] = useState<string | null>(null);
+
   function changeTab(
     tab: MenuTab
   ) {
@@ -310,54 +434,28 @@ export default function MenuPage() {
     });
   }
 
-  const [
-    activeKitchenCategoryId,
-    setActiveKitchenCategoryId,
-  ] = useState<string | null>(
-    null
-  );
+  useEffect(() => {
+    const updateTime = () => {
+      setCurrentTime(new Date());
+    };
 
-  const [
-    activeBarGroupId,
-    setActiveBarGroupId,
-  ] = useState<string | null>(
-    null
-  );
+    updateTime();
 
-  const [
-    activeBarCategoryId,
-    setActiveBarCategoryId,
-  ] = useState<string | null>(
-    null
-  );
+    const timer =
+      window.setInterval(
+        updateTime,
+        60_000
+      );
 
-  const [
-    activeSmokeCategoryId,
-    setActiveSmokeCategoryId,
-  ] = useState<string | null>(
-    null
-  );
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
 
-  const [
-    menu,
-    setMenu,
-  ] =
-    useState<ApiMenu | null>(
-      null
-    );
-
-  const [
-    loading,
-    setLoading,
-  ] =
-    useState(true);
-
-  const [
-    error,
-    setError,
-  ] =
-    useState<string | null>(
-      null
+  const businessLunchAvailable =
+    currentTime !== null &&
+    isBusinessLunchAvailable(
+      currentTime
     );
 
   /*
@@ -385,7 +483,7 @@ export default function MenuPage() {
         ) {
           throw new Error(
             data.error ??
-            "Не удалось загрузить меню"
+              "Не удалось загрузить меню"
           );
         }
 
@@ -408,8 +506,7 @@ export default function MenuPage() {
   }, []);
 
   /*
-   * Ищем три публичных
-   * корневых раздела.
+   * Ищем корневую категорию кухни.
    */
   const kitchenCategory =
     useMemo(
@@ -422,9 +519,26 @@ export default function MenuPage() {
       [menu]
     );
 
-  const selectedKitchenCategory =
+  const availableKitchenCategory =
     useMemo(() => {
       if (!kitchenCategory) {
+        return null;
+      }
+
+      return filterBusinessLunch(
+        kitchenCategory,
+        businessLunchAvailable
+      );
+    }, [
+      kitchenCategory,
+      businessLunchAvailable,
+    ]);
+
+  const selectedKitchenCategory =
+    useMemo(() => {
+      if (
+        !availableKitchenCategory
+      ) {
         return null;
       }
 
@@ -432,7 +546,7 @@ export default function MenuPage() {
         activeKitchenCategoryId
       ) {
         const selected =
-          kitchenCategory.children.find(
+          availableKitchenCategory.children.find(
             (category) =>
               category.id ===
               activeKitchenCategoryId
@@ -444,13 +558,15 @@ export default function MenuPage() {
       }
 
       return (
-        kitchenCategory.children[0] ??
+        availableKitchenCategory.children[0] ??
         null
       );
     }, [
-      kitchenCategory,
+      availableKitchenCategory,
       activeKitchenCategoryId,
     ]);
+
+  
 
   const barCategory =
     useMemo(
@@ -565,15 +681,15 @@ export default function MenuPage() {
    * каждого раздела.
    */
   const kitchenItems =
-    useMemo(
-      () =>
-        kitchenCategory
-          ? collectItems(
-            kitchenCategory
+  useMemo(
+    () =>
+      availableKitchenCategory
+        ? collectItems(
+            availableKitchenCategory
           ).map(mapMenuItem)
-          : [],
-      [kitchenCategory]
-    );
+        : [],
+    [availableKitchenCategory]
+  );
 
   const barItems =
     useMemo(
@@ -783,49 +899,48 @@ export default function MenuPage() {
 )}
 
         
+{!loading &&
+  !error &&
+  activeTab === "kitchen" &&
+  availableKitchenCategory && (
+    <div
+      className={styles.tabs}
+    >
+      {availableKitchenCategory.children.map(
+        (category) => {
+          const isActive =
+            selectedKitchenCategory
+              ?.id ===
+            category.id;
 
-      {!loading &&
-        !error &&
-        activeTab === "kitchen" &&
-        kitchenCategory && (
-          <div
-            className={styles.tabs}
-          >
-            {kitchenCategory.children.map(
-              (category) => {
-                const isActive =
-                  selectedKitchenCategory
-                    ?.id ===
-                  category.id;
-
-                return (
-                  <button
-                    key={category.id}
-                    type="button"
-                    className={
-                      isActive
-                        ? styles.tabActive
-                        : ""
-                    }
-                    onClick={() => {
-                      setActiveKitchenCategoryId(
-                        category.id
-                      );
-
-                      window.scrollTo({
-                        top: 0,
-                        behavior:
-                          "smooth",
-                      });
-                    }}
-                  >
-                    {category.name.toUpperCase()}
-                  </button>
-                );
+          return (
+            <button
+              key={category.id}
+              type="button"
+              className={
+                isActive
+                  ? styles.tabActive
+                  : ""
               }
-            )}
-          </div>
-        )}
+              onClick={() => {
+                setActiveKitchenCategoryId(
+                  category.id
+                );
+
+                window.scrollTo({
+                  top: 0,
+                  behavior:
+                    "smooth",
+                });
+              }}
+            >
+              {category.name.toUpperCase()}
+            </button>
+          );
+        }
+      )}
+    </div>
+  )}
 
       {!loading &&
         !error &&
