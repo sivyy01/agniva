@@ -70,6 +70,10 @@ export const metadata: Metadata = {
       "Кухня, бар и дымная культура в Новокузнецке.",
   },
 
+  verification: {
+  yandex: "0992e97012b13e53",
+},
+
   robots: {
     index: true,
     follow: true,
