@@ -17,12 +17,14 @@ type ApiMenuItem = {
   sortOrder: number;
 
   nutrition: {
-  kcalorie: number | null;
-  protein: number | null;
-  fat: number | null;
-  carbohydrate: number | null;
- };
+    kcalorie: number | null;
+    protein: number | null;
+    fat: number | null;
+    carbohydrate: number | null;
+  };
 };
+
+
 
 type ApiMenuCategory = {
   id: string;
@@ -57,6 +59,7 @@ type MenuItem = {
   image: string | null;
   weight: number | null;
   unit: string | null;
+  displayWeight: string | null;
 
   nutrition: {
     kcalorie: number | null;
@@ -64,6 +67,12 @@ type MenuItem = {
     fat: number | null;
     carbohydrate: number | null;
   };
+
+  variants?: {
+    id: string;
+    label: string;
+    price: string;
+  }[];
 };
 
 type MenuTab =
@@ -290,6 +299,27 @@ function formatPrice(
     "ru-RU"
   ).format(price)} ₽`;
 }
+function getWeightFromDescription(
+  description: string
+): string | null {
+  const match =
+    description.match(
+      /вес\s*:?\s*(\d+(?:[.,]\d+)?)\s*(г|гр|грамм|грамма|граммов|кг)/i
+    );
+
+  if (!match) {
+    return null;
+  }
+
+  const value = match[1].replace(",", ".");
+  const unit = match[2].toLowerCase();
+
+  if (unit === "кг") {
+    return `${Number(value) * 1000} г`;
+  }
+
+  return `${value} г`;
+}
 
 /*
  * Преобразуем данные Yuma
@@ -314,8 +344,84 @@ function mapMenuItem(
     weight: item.weight,
 
     unit: item.unit,
+    displayWeight:
+      getWeightFromDescription(
+        item.description?.trim() ?? ""
+      ),
     nutrition: item.nutrition,
   };
+}
+function groupKrikDeLutin(
+  items: ApiMenuItem[]
+): MenuItem[] {
+  const krikItems =
+    items.filter((item) =>
+      item.name
+        .toLowerCase()
+        .includes("крик де лютин")
+    );
+
+  const otherItems =
+    items.filter(
+      (item) =>
+        !item.name
+          .toLowerCase()
+          .includes("крик де лютин")
+    );
+
+  if (krikItems.length < 2) {
+    return items.map(mapMenuItem);
+  }
+
+  const sortedVariants =
+    [...krikItems].sort((a, b) => {
+      return (
+        (a.weight ?? 0) -
+        (b.weight ?? 0)
+      );
+    });
+
+  const base =
+    sortedVariants[0];
+
+  const groupedItem: MenuItem = {
+    ...mapMenuItem(base),
+
+    name: "Крик де Лютин",
+
+    price:
+      base.price !== null
+        ? `от ${formatPrice(base.price)}`
+        : "",
+
+    weight: null,
+    unit: null,
+
+    variants:
+      sortedVariants.map((item) => ({
+        id: item.id,
+
+        label:
+          item.weight !== null
+            ? `${Math.round(
+              item.weight * 1000
+            )} мл`
+            : item.name,
+
+        price:
+          formatPrice(item.price),
+      })),
+  };
+
+  return [
+    ...otherItems.map(mapMenuItem),
+    groupedItem,
+  ].sort((a, b) =>
+    a.name.localeCompare(
+      b.name,
+      "ru"
+    )
+  );
 }
 
 function MenuCard({
@@ -825,9 +931,11 @@ export default function MenuPage() {
     activeTab === "all"
       ? barItems.slice(0, 3)
       : selectedBarCategory
-        ? collectItems(
-          selectedBarCategory
-        ).map(mapMenuItem)
+        ? groupKrikDeLutin(
+          collectItems(
+            selectedBarCategory
+          )
+        )
         : [];
 
   const visibleSmokeItems =
@@ -963,53 +1071,81 @@ export default function MenuPage() {
               {selectedItem.description && (
                 <p>{selectedItem.description}</p>
               )}
+              {selectedItem.variants &&
+                selectedItem.variants.length > 0 && (
+                  <div className={styles.dishVariants}>
+                    {selectedItem.variants.map(
+                      (variant) => (
+                        <div
+                          key={variant.id}
+                          className={
+                            styles.dishVariant
+                          }
+                        >
+                          <span>
+                            {variant.label}
+                          </span>
+
+                          <strong>
+                            {variant.price}
+                          </strong>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
               {(
-  selectedItem.nutrition.kcalorie !== null ||
-  selectedItem.nutrition.protein !== null ||
-  selectedItem.nutrition.fat !== null ||
-  selectedItem.nutrition.carbohydrate !== null
-) && (
-  <div className={styles.dishNutrition}>
-    {selectedItem.nutrition.kcalorie !== null && (
-      <span>
-        ККАЛ
-        <strong>
-          {selectedItem.nutrition.kcalorie}
-        </strong>
-      </span>
-    )}
+                selectedItem.nutrition.kcalorie !== null ||
+                selectedItem.nutrition.protein !== null ||
+                selectedItem.nutrition.fat !== null ||
+                selectedItem.nutrition.carbohydrate !== null
+              ) && (
+                  <div className={styles.dishNutrition}>
+                    {selectedItem.nutrition.kcalorie !== null && (
+                      <span>
+                        ККАЛ
+                        <strong>
+                          {selectedItem.nutrition.kcalorie}
+                        </strong>
+                      </span>
+                    )}
 
-    {selectedItem.nutrition.protein !== null && (
-      <span>
-        БЕЛКИ
-        <strong>
-          {selectedItem.nutrition.protein}
-        </strong>
-      </span>
-    )}
+                    {selectedItem.nutrition.protein !== null && (
+                      <span>
+                        БЕЛКИ
+                        <strong>
+                          {selectedItem.nutrition.protein}
+                        </strong>
+                      </span>
+                    )}
 
-    {selectedItem.nutrition.fat !== null && (
-      <span>
-        ЖИРЫ
-        <strong>
-          {selectedItem.nutrition.fat}
-        </strong>
-      </span>
-    )}
+                    {selectedItem.nutrition.fat !== null && (
+                      <span>
+                        ЖИРЫ
+                        <strong>
+                          {selectedItem.nutrition.fat}
+                        </strong>
+                      </span>
+                    )}
 
-    {selectedItem.nutrition.carbohydrate !== null && (
-      <span>
-        УГЛЕВОДЫ
-        <strong>
-          {selectedItem.nutrition.carbohydrate}
-        </strong>
-      </span>
-    )}
-  </div>
-)}
+                    {selectedItem.nutrition.carbohydrate !== null && (
+                      <span>
+                        УГЛЕВОДЫ
+                        <strong>
+                          {selectedItem.nutrition.carbohydrate}
+                        </strong>
+                      </span>
+                    )}
+                  </div>
+                )}
 
               <div className={styles.dishModalMeta}>
-                {selectedItem.weight !== null &&
+                {selectedItem.displayWeight ? (
+                  <span>
+                    {selectedItem.displayWeight}
+                  </span>
+                ) : (
+                  selectedItem.weight !== null &&
                   selectedItem.unit !== "Pcs" && (
                     <span>
                       {selectedItem.weight}
@@ -1017,7 +1153,8 @@ export default function MenuPage() {
                         ? ` ${selectedItem.unit}`
                         : ""}
                     </span>
-                  )}
+                  )
+                )}
 
                 {selectedItem.price && (
                   <strong>
@@ -1038,8 +1175,24 @@ export default function MenuPage() {
           <div
             className={styles.tabs}
           >
-            {availableKitchenCategory.children.map(
-              (category) => {
+            {[...availableKitchenCategory.children]
+              .sort((a, b) => {
+                const getOrder = (
+                  category: ApiMenuCategory
+                ) => {
+                  if (
+                    category.id ===
+                    "b853aa3b-9605-445e-d71c-5741db6d604e"
+                  ) {
+                    return 59;
+                  }
+
+                  return category.sortOrder;
+                };
+
+                return getOrder(a) - getOrder(b);
+              })
+              .map((category) => {
                 const isActive =
                   selectedKitchenCategory
                     ?.id ===
@@ -1070,7 +1223,7 @@ export default function MenuPage() {
                   </button>
                 );
               }
-            )}
+              )}
           </div>
         )}
 
