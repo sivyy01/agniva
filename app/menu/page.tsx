@@ -351,77 +351,247 @@ function mapMenuItem(
     nutrition: item.nutrition,
   };
 }
-function groupKrikDeLutin(
+function groupVolumeVariants(
   items: ApiMenuItem[]
 ): MenuItem[] {
-  const krikItems =
-    items.filter((item) =>
-      item.name
-        .toLowerCase()
-        .includes("крик де лютин")
-    );
+  function getVolumeInfo(
+    item: ApiMenuItem
+  ) {
+    const name =
+      item.name.trim();
 
-  const otherItems =
-    items.filter(
-      (item) =>
-        !item.name
-          .toLowerCase()
-          .includes("крик де лютин")
-    );
+    const mlMatch =
+      name.match(
+        /(?:^|\s)(\d{2,4})\s*мл\.?\s*$/i
+      );
 
-  if (krikItems.length < 2) {
-    return items.map(mapMenuItem);
+    if (mlMatch) {
+      const volumeMl =
+        Number(mlMatch[1]);
+
+      const baseName =
+        name
+          .replace(
+            /(?:^|\s)\d{2,4}\s*мл\.?\s*$/i,
+            ""
+          )
+          .trim();
+
+      return {
+        baseName,
+        volumeMl,
+      };
+    }
+
+    const literMatch =
+      name.match(
+        /(?:^|\s)(\d+(?:[.,]\d+)?)\s*л\.?\s*$/i
+      );
+
+    if (literMatch) {
+      const liters =
+        Number(
+          literMatch[1].replace(
+            ",",
+            "."
+          )
+        );
+
+      const volumeMl =
+        Math.round(
+          liters * 1000
+        );
+
+      const baseName =
+        name
+          .replace(
+            /(?:^|\s)\d+(?:[.,]\d+)?\s*л\.?\s*$/i,
+            ""
+          )
+          .trim();
+
+      return {
+        baseName,
+        volumeMl,
+      };
+    }
+
+    return null;
   }
 
-  const sortedVariants =
-    [...krikItems].sort((a, b) => {
-      return (
-        (a.weight ?? 0) -
-        (b.weight ?? 0)
+  const groups =
+    new Map<
+      string,
+      {
+        baseName: string;
+        items: ApiMenuItem[];
+      }
+    >();
+
+  const standaloneItems:
+    ApiMenuItem[] = [];
+
+  for (const item of items) {
+    const volumeInfo =
+      getVolumeInfo(item);
+
+    if (!volumeInfo) {
+      standaloneItems.push(item);
+      continue;
+    }
+
+    const key =
+      volumeInfo.baseName
+        .toLowerCase();
+
+    const existing =
+      groups.get(key);
+
+    if (existing) {
+      existing.items.push(item);
+    } else {
+      groups.set(key, {
+        baseName:
+          volumeInfo.baseName,
+        items: [item],
+      });
+    }
+  }
+
+  const groupedItems:
+    {
+      item: MenuItem;
+      sortOrder: number;
+    }[] = [];
+
+  for (const group of groups.values()) {
+    if (group.items.length < 2) {
+      const original =
+        group.items[0];
+
+      groupedItems.push({
+        item:
+          mapMenuItem(original),
+
+        sortOrder:
+          original.sortOrder,
+      });
+
+      continue;
+    }
+
+    const variants =
+      [...group.items]
+        .map((item) => {
+          const volumeInfo =
+            getVolumeInfo(item);
+
+          return {
+            item,
+            volumeMl:
+              volumeInfo?.volumeMl ??
+              null,
+          };
+        })
+        .sort(
+          (a, b) =>
+            (a.volumeMl ?? 999999) -
+            (b.volumeMl ?? 999999)
+        );
+
+    const base =
+      variants[0].item;
+
+    const lowestPrice =
+      Math.min(
+        ...variants
+          .map(
+            (variant) =>
+              variant.item.price
+          )
+          .filter(
+            (
+              price
+            ): price is number =>
+              price !== null
+          )
       );
-    });
 
-  const base =
-    sortedVariants[0];
+    const sortOrder =
+      Math.min(
+        ...group.items.map(
+          (item) =>
+            item.sortOrder
+        )
+      );
 
-  const groupedItem: MenuItem = {
-    ...mapMenuItem(base),
+    groupedItems.push({
+      sortOrder,
 
-    name: "Крик де Лютин",
+      item: {
+        ...mapMenuItem(base),
 
-    price:
-      base.price !== null
-        ? `от ${formatPrice(base.price)}`
-        : "",
-
-    weight: null,
-    unit: null,
-
-    variants:
-      sortedVariants.map((item) => ({
-        id: item.id,
-
-        label:
-          item.weight !== null
-            ? `${Math.round(
-              item.weight * 1000
-            )} мл`
-            : item.name,
+        name:
+          group.baseName,
 
         price:
-          formatPrice(item.price),
-      })),
-  };
+          Number.isFinite(
+            lowestPrice
+          )
+            ? `от ${formatPrice(
+                lowestPrice
+              )}`
+            : "",
 
-  return [
-    ...otherItems.map(mapMenuItem),
-    groupedItem,
-  ].sort((a, b) =>
-    a.name.localeCompare(
-      b.name,
-      "ru"
+        weight: null,
+        unit: null,
+
+        variants:
+          variants.map(
+            ({
+              item,
+              volumeMl,
+            }) => ({
+              id: item.id,
+
+              label:
+                volumeMl !== null
+                  ? `${volumeMl} мл`
+                  : item.name,
+
+              price:
+                formatPrice(
+                  item.price
+                ),
+            })
+          ),
+      },
+    });
+  }
+
+  const result = [
+    ...standaloneItems.map(
+      (item) => ({
+        item:
+          mapMenuItem(item),
+
+        sortOrder:
+          item.sortOrder,
+      })
+    ),
+
+    ...groupedItems,
+  ];
+
+  return result
+    .sort(
+      (a, b) =>
+        a.sortOrder -
+        b.sortOrder
     )
-  );
+    .map(
+      ({ item }) => item
+    );
 }
 
 function MenuCard({
@@ -928,15 +1098,15 @@ export default function MenuPage() {
         : [];
 
   const visibleBarItems =
-    activeTab === "all"
-      ? barItems.slice(0, 3)
-      : selectedBarCategory
-        ? groupKrikDeLutin(
+  activeTab === "all"
+    ? barItems.slice(0, 3)
+    : selectedBarCategory
+      ? groupVolumeVariants(
           collectItems(
             selectedBarCategory
           )
         )
-        : [];
+      : [];
 
   const visibleSmokeItems =
     activeTab === "all"
