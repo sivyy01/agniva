@@ -152,6 +152,21 @@ function filterBusinessLunch(
         ),
   };
 }
+const HIDDEN_PUBLIC_ITEM_NAMES = new Set([
+  "Забивка",
+  "Уголь для кальяна по штучно",
+  "Уголь для кальяна поштучно",
+  "Молоко колба",
+  "Вино в колбу",
+]);
+
+function isPublicMenuItem(
+  item: ApiMenuItem
+) {
+  return !HIDDEN_PUBLIC_ITEM_NAMES.has(
+    item.name.trim()
+  );
+}
 
 const tabs: {
   id: MenuTab;
@@ -191,10 +206,12 @@ function collectItems(
   return [
     ...category.items,
     ...childItems,
-  ].sort(
-    (a, b) =>
-      a.sortOrder - b.sortOrder
-  );
+  ]
+    .filter(isPublicMenuItem)
+    .sort(
+      (a, b) =>
+        a.sortOrder - b.sortOrder
+    );
 }
 
 /*
