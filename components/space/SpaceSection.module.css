@@ -92,7 +92,7 @@
     sans-serif;
 
   font-size:
-    clamp(58px, 4.7vw, 88px);
+  clamp(46px, 3.8vw, 70px);
 
   font-weight: 400;
 
@@ -313,9 +313,9 @@
 }
 
   .copy h2 {
-    font-size:
-      clamp(46px, 14vw, 68px);
-  }
+  font-size:
+    clamp(38px, 11vw, 54px);
+}
 
   .copy p {
   margin-top: 22px;

@@ -15,6 +15,13 @@ type ApiMenuItem = {
   unit: string | null;
   image: string | null;
   sortOrder: number;
+
+  nutrition: {
+  kcalorie: number | null;
+  protein: number | null;
+  fat: number | null;
+  carbohydrate: number | null;
+ };
 };
 
 type ApiMenuCategory = {
@@ -50,6 +57,13 @@ type MenuItem = {
   image: string | null;
   weight: number | null;
   unit: string | null;
+
+  nutrition: {
+    kcalorie: number | null;
+    protein: number | null;
+    fat: number | null;
+    carbohydrate: number | null;
+  };
 };
 
 type MenuTab =
@@ -73,6 +87,17 @@ const ROOT_IDS = {
 } as const;
 const BUSINESS_LUNCH_CATEGORY_ID =
   "b2e7ac69-3039-4090-e71d-001a2acfcf1d";
+const HIDDEN_PUBLIC_CATEGORY_IDS =
+  new Set([
+    // Дымная культура → Доп. Мод.
+    "ba4bd885-b284-4dfe-86d5-6aa1bf11c8ad",
+
+    // Бар → Безалкогольные напитки → Доп. Мод. Бар
+    "c64885a3-a526-45e7-9e28-e56880143628",
+
+    // Бар → Безалкогольные напитки → Вода бесплатно
+    "6107c7f8-d6d8-44e3-d43f-48dc2f19cbff",
+  ]);
 
 const NOVOKUZNETSK_TIME_ZONE =
   "Asia/Novokuznetsk";
@@ -142,13 +167,32 @@ function filterBusinessLunch(
           (child) =>
             isAvailable ||
             child.id !==
-              BUSINESS_LUNCH_CATEGORY_ID
+            BUSINESS_LUNCH_CATEGORY_ID
         )
         .map((child) =>
           filterBusinessLunch(
             child,
             isAvailable
           )
+        ),
+  };
+}
+function filterPublicCategories(
+  category: ApiMenuCategory
+): ApiMenuCategory {
+  return {
+    ...category,
+
+    children:
+      category.children
+        .filter(
+          (child) =>
+            !HIDDEN_PUBLIC_CATEGORY_IDS.has(
+              child.id
+            )
+        )
+        .map(
+          filterPublicCategories
         ),
   };
 }
@@ -270,6 +314,7 @@ function mapMenuItem(
     weight: item.weight,
 
     unit: item.unit,
+    nutrition: item.nutrition,
   };
 }
 
@@ -515,7 +560,7 @@ export default function MenuPage() {
         ) {
           throw new Error(
             data.error ??
-              "Не удалось загрузить меню"
+            "Не удалось загрузить меню"
           );
         }
 
@@ -598,18 +643,23 @@ export default function MenuPage() {
       activeKitchenCategoryId,
     ]);
 
-  
+
 
   const barCategory =
-    useMemo(
-      () =>
+    useMemo(() => {
+      const category =
         menu?.categories.find(
           (category) =>
             category.id ===
             ROOT_IDS.bar
-        ) ?? null,
-      [menu]
-    );
+        );
+
+      return category
+        ? filterPublicCategories(
+          category
+        )
+        : null;
+    }, [menu]);
 
   const selectedBarGroup =
     useMemo(() => {
@@ -668,15 +718,20 @@ export default function MenuPage() {
     ]);
 
   const smokeCategory =
-    useMemo(
-      () =>
+    useMemo(() => {
+      const category =
         menu?.categories.find(
           (category) =>
             category.id ===
             ROOT_IDS.smoke
-        ) ?? null,
-      [menu]
-    );
+        );
+
+      return category
+        ? filterPublicCategories(
+          category
+        )
+        : null;
+    }, [menu]);
 
   const selectedSmokeCategory =
     useMemo(() => {
@@ -713,15 +768,15 @@ export default function MenuPage() {
    * каждого раздела.
    */
   const kitchenItems =
-  useMemo(
-    () =>
-      availableKitchenCategory
-        ? collectItems(
+    useMemo(
+      () =>
+        availableKitchenCategory
+          ? collectItems(
             availableKitchenCategory
           ).map(mapMenuItem)
-        : [],
-    [availableKitchenCategory]
-  );
+          : [],
+      [availableKitchenCategory]
+    );
 
   const barItems =
     useMemo(
@@ -850,129 +905,174 @@ export default function MenuPage() {
         </section>
       )}
 
-     {!loading && error && (
-  <section
-    className={styles.menuGrid}
-  >
-    <p>{error}</p>
-  </section>
-)}
+      {!loading && error && (
+        <section
+          className={styles.menuGrid}
+        >
+          <p>{error}</p>
+        </section>
+      )}
 
-{selectedItem && (
-  <div
-    className={styles.dishModal}
-    onClick={() =>
-      setSelectedItem(null)
-    }
-  >
-    <article
-      className={styles.dishModalCard}
-      onClick={(event) =>
-        event.stopPropagation()
-      }
-    >
-      <button
-        type="button"
-        className={styles.dishModalClose}
-        onClick={() =>
-          setSelectedItem(null)
-        }
-        aria-label="Закрыть"
-      >
-        ×
-      </button>
-
-      <div
-        className={styles.dishModalImage}
-        style={
-          selectedItem.image
-            ? {
-                backgroundImage:
-                  `url("${selectedItem.image}")`,
+      {selectedItem && (
+        <div
+          className={styles.dishModal}
+          onClick={() =>
+            setSelectedItem(null)
+          }
+        >
+          <article
+            className={styles.dishModalCard}
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+            <button
+              type="button"
+              className={styles.dishModalClose}
+              onClick={() =>
+                setSelectedItem(null)
               }
-            : undefined
-        }
-      >
-        {!selectedItem.image && (
-          <span>АГНИВА</span>
-        )}
-      </div>
+              aria-label="Закрыть"
+            >
+              ×
+            </button>
 
-      <div className={styles.dishModalContent}>
-        <span className={styles.dishModalLabel}>
-          АГНИВА · МЕНЮ
-        </span>
+            <div
+              className={styles.dishModalImage}
+              style={
+                selectedItem.image
+                  ? {
+                    backgroundImage:
+                      `url("${selectedItem.image}")`,
+                  }
+                  : undefined
+              }
+            >
+              {!selectedItem.image && (
+                <span>АГНИВА</span>
+              )}
+            </div>
 
-        <h2>{selectedItem.name}</h2>
+            <div className={styles.dishModalContent}>
+              <span className={styles.dishModalLabel}>
+                АГНИВА · МЕНЮ
+              </span>
 
-        {selectedItem.description && (
-          <p>{selectedItem.description}</p>
-        )}
+              <h2>{selectedItem.name}</h2>
 
-        <div className={styles.dishModalMeta}>
-          {selectedItem.weight !== null && (
-            <span>
-              {selectedItem.weight}
-              {selectedItem.unit
-                ? ` ${selectedItem.unit}`
-                : ""}
-            </span>
-          )}
+              {selectedItem.description && (
+                <p>{selectedItem.description}</p>
+              )}
+              {(
+  selectedItem.nutrition.kcalorie !== null ||
+  selectedItem.nutrition.protein !== null ||
+  selectedItem.nutrition.fat !== null ||
+  selectedItem.nutrition.carbohydrate !== null
+) && (
+  <div className={styles.dishNutrition}>
+    {selectedItem.nutrition.kcalorie !== null && (
+      <span>
+        ККАЛ
+        <strong>
+          {selectedItem.nutrition.kcalorie}
+        </strong>
+      </span>
+    )}
 
-          {selectedItem.price && (
-            <strong>
-              {selectedItem.price}
-            </strong>
-          )}
-        </div>
-      </div>
-    </article>
+    {selectedItem.nutrition.protein !== null && (
+      <span>
+        БЕЛКИ
+        <strong>
+          {selectedItem.nutrition.protein}
+        </strong>
+      </span>
+    )}
+
+    {selectedItem.nutrition.fat !== null && (
+      <span>
+        ЖИРЫ
+        <strong>
+          {selectedItem.nutrition.fat}
+        </strong>
+      </span>
+    )}
+
+    {selectedItem.nutrition.carbohydrate !== null && (
+      <span>
+        УГЛЕВОДЫ
+        <strong>
+          {selectedItem.nutrition.carbohydrate}
+        </strong>
+      </span>
+    )}
   </div>
 )}
 
-        
-{!loading &&
-  !error &&
-  activeTab === "kitchen" &&
-  availableKitchenCategory && (
-    <div
-      className={styles.tabs}
-    >
-      {availableKitchenCategory.children.map(
-        (category) => {
-          const isActive =
-            selectedKitchenCategory
-              ?.id ===
-            category.id;
+              <div className={styles.dishModalMeta}>
+                {selectedItem.weight !== null &&
+                  selectedItem.unit !== "Pcs" && (
+                    <span>
+                      {selectedItem.weight}
+                      {selectedItem.unit
+                        ? ` ${selectedItem.unit}`
+                        : ""}
+                    </span>
+                  )}
 
-          return (
-            <button
-              key={category.id}
-              type="button"
-              className={
-                isActive
-                  ? styles.tabActive
-                  : ""
-              }
-              onClick={() => {
-                setActiveKitchenCategoryId(
-                  category.id
-                );
-
-                window.scrollTo({
-                  top: 0,
-                  behavior:
-                    "smooth",
-                });
-              }}
-            >
-              {category.name.toUpperCase()}
-            </button>
-          );
-        }
+                {selectedItem.price && (
+                  <strong>
+                    {selectedItem.price}
+                  </strong>
+                )}
+              </div>
+            </div>
+          </article>
+        </div>
       )}
-    </div>
-  )}
+
+
+      {!loading &&
+        !error &&
+        activeTab === "kitchen" &&
+        availableKitchenCategory && (
+          <div
+            className={styles.tabs}
+          >
+            {availableKitchenCategory.children.map(
+              (category) => {
+                const isActive =
+                  selectedKitchenCategory
+                    ?.id ===
+                  category.id;
+
+                return (
+                  <button
+                    key={category.id}
+                    type="button"
+                    className={
+                      isActive
+                        ? styles.tabActive
+                        : ""
+                    }
+                    onClick={() => {
+                      setActiveKitchenCategoryId(
+                        category.id
+                      );
+
+                      window.scrollTo({
+                        top: 0,
+                        behavior:
+                          "smooth",
+                      });
+                    }}
+                  >
+                    {category.name.toUpperCase()}
+                  </button>
+                );
+              }
+            )}
+          </div>
+        )}
 
       {!loading &&
         !error &&
