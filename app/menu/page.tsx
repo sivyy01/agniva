@@ -60,6 +60,7 @@ type MenuItem = {
   weight: number | null;
   unit: string | null;
   displayWeight: string | null;
+  weightLabel: string | null;
 
   nutrition: {
     kcalorie: number | null;
@@ -374,6 +375,7 @@ function mapMenuItem(
       getWeightFromDescription(
         item.description?.trim() ?? ""
       ),
+    weightLabel: null,
     nutrition: item.nutrition,
   };
 }
@@ -397,6 +399,48 @@ function mapKitchenMenuItem(
     displayWeight:
       apiWeight ??
       menuItem.displayWeight,
+    weightLabel: "ВЕС БЛЮДА",
+  };
+}
+
+function mapBarMenuItem(
+  item: ApiMenuItem
+): MenuItem {
+  const menuItem =
+    mapMenuItem(item);
+
+  if (
+    item.weight === null ||
+    !Number.isFinite(item.weight) ||
+    item.weight <= 0
+  ) {
+    return menuItem;
+  }
+
+  const nameHasVolume =
+    /(?:\d{2,4}\s*мл|\d+(?:[.,]\d+)?\s*л)\.?\s*$/i.test(
+      item.name.trim()
+    );
+
+  if (nameHasVolume) {
+    return menuItem;
+  }
+
+  let displayWeight: string | null =
+    null;
+
+  if (item.weight >= 10) {
+    displayWeight =
+      `${Math.round(item.weight)} мл`;
+  } else if (item.weight < 10) {
+    displayWeight =
+      `${String(item.weight).replace(".", ",")} л`;
+  }
+
+  return {
+    ...menuItem,
+    displayWeight,
+    weightLabel: "ОБЪЁМ",
   };
 }
 function groupVolumeVariants(
@@ -519,7 +563,7 @@ function groupVolumeVariants(
 
       groupedItems.push({
         item:
-          mapMenuItem(original),
+          mapBarMenuItem(original),
 
         sortOrder:
           original.sortOrder,
@@ -621,7 +665,7 @@ function groupVolumeVariants(
     ...standaloneItems.map(
       (item) => ({
         item:
-          mapMenuItem(item),
+          mapBarMenuItem(item),
 
         sortOrder:
           item.sortOrder,
@@ -1119,7 +1163,7 @@ export default function MenuPage() {
         barCategory
           ? collectItems(
             barCategory
-          ).map(mapMenuItem)
+          ).map(mapBarMenuItem)
           : [],
       [barCategory]
     );
@@ -1380,7 +1424,9 @@ export default function MenuPage() {
               <div className={styles.dishModalMeta}>
                 {selectedItem.displayWeight ? (
                   <span>
-                    ВЕС БЛЮДА ·{" "}
+                    {selectedItem.weightLabel
+                      ? `${selectedItem.weightLabel} · `
+                      : ""}
                     {selectedItem.displayWeight}
                   </span>
                 ) : (
