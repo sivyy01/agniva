@@ -96,6 +96,8 @@ const ROOT_IDS = {
 } as const;
 const BUSINESS_LUNCH_CATEGORY_ID =
   "b2e7ac69-3039-4090-e71d-001a2acfcf1d";
+const BUSINESS_CLASSIC_CATEGORY_ID =
+  "4ad9c652-699f-45a3-ed5b-9a041d06a5d4";
 const HIDDEN_PUBLIC_CATEGORY_IDS =
   new Set([
     // Дымная культура → Доп. Мод.
@@ -180,6 +182,30 @@ function filterBusinessLunch(
         )
         .map((child) =>
           filterBusinessLunch(
+            child,
+            isAvailable
+          )
+        ),
+  };
+}
+
+function filterBusinessClassic(
+  category: ApiMenuCategory,
+  isAvailable: boolean
+): ApiMenuCategory {
+  return {
+    ...category,
+
+    children:
+      category.children
+        .filter(
+          (child) =>
+            isAvailable ||
+            child.id !==
+            BUSINESS_CLASSIC_CATEGORY_ID
+        )
+        .map((child) =>
+          filterBusinessClassic(
             child,
             isAvailable
           )
@@ -349,6 +375,28 @@ function mapMenuItem(
         item.description?.trim() ?? ""
       ),
     nutrition: item.nutrition,
+  };
+}
+
+function mapKitchenMenuItem(
+  item: ApiMenuItem
+): MenuItem {
+  const menuItem =
+    mapMenuItem(item);
+
+  const apiWeight =
+    item.weight !== null &&
+      Number.isFinite(item.weight) &&
+      item.weight > 0
+      ? `${item.weight} г`
+      : null;
+
+  return {
+    ...menuItem,
+
+    displayWeight:
+      apiWeight ??
+      menuItem.displayWeight,
   };
 }
 function groupVolumeVariants(
@@ -539,8 +587,8 @@ function groupVolumeVariants(
             lowestPrice
           )
             ? `от ${formatPrice(
-                lowestPrice
-              )}`
+              lowestPrice
+            )}`
             : "",
 
         weight: null,
@@ -1002,12 +1050,23 @@ export default function MenuPage() {
             ROOT_IDS.smoke
         );
 
-      return category
-        ? filterPublicCategories(
+      if (!category) {
+        return null;
+      }
+
+      const publicCategory =
+        filterPublicCategories(
           category
-        )
-        : null;
-    }, [menu]);
+        );
+
+      return filterBusinessClassic(
+        publicCategory,
+        businessLunchAvailable
+      );
+    }, [
+      menu,
+      businessLunchAvailable,
+    ]);
 
   const selectedSmokeCategory =
     useMemo(() => {
@@ -1049,7 +1108,7 @@ export default function MenuPage() {
         availableKitchenCategory
           ? collectItems(
             availableKitchenCategory
-          ).map(mapMenuItem)
+          ).map(mapKitchenMenuItem)
           : [],
       [availableKitchenCategory]
     );
@@ -1094,19 +1153,19 @@ export default function MenuPage() {
       : selectedKitchenCategory
         ? collectItems(
           selectedKitchenCategory
-        ).map(mapMenuItem)
+        ).map(mapKitchenMenuItem)
         : [];
 
   const visibleBarItems =
-  activeTab === "all"
-    ? barItems.slice(0, 3)
-    : selectedBarCategory
-      ? groupVolumeVariants(
+    activeTab === "all"
+      ? barItems.slice(0, 3)
+      : selectedBarCategory
+        ? groupVolumeVariants(
           collectItems(
             selectedBarCategory
           )
         )
-      : [];
+        : [];
 
   const visibleSmokeItems =
     activeTab === "all"
@@ -1265,48 +1324,63 @@ export default function MenuPage() {
                 selectedItem.nutrition.fat !== null ||
                 selectedItem.nutrition.carbohydrate !== null
               ) && (
-                  <div className={styles.dishNutrition}>
-                    {selectedItem.nutrition.kcalorie !== null && (
-                      <span>
-                        ККАЛ
-                        <strong>
-                          {selectedItem.nutrition.kcalorie}
-                        </strong>
-                      </span>
-                    )}
+                  <div>
+                    <div
+                      style={{
+                        marginBottom: "10px",
+                        fontSize: "10px",
+                        fontWeight: 600,
+                        letterSpacing: "0.12em",
+                        color: "rgba(245, 245, 243, 0.48)",
+                      }}
+                    >
+                      КБЖУ НА 100 Г
+                    </div>
 
-                    {selectedItem.nutrition.protein !== null && (
-                      <span>
-                        БЕЛКИ
-                        <strong>
-                          {selectedItem.nutrition.protein}
-                        </strong>
-                      </span>
-                    )}
+                    <div className={styles.dishNutrition}>
+                      {selectedItem.nutrition.kcalorie !== null && (
+                        <span>
+                          ККАЛ
+                          <strong>
+                            {selectedItem.nutrition.kcalorie}
+                          </strong>
+                        </span>
+                      )}
 
-                    {selectedItem.nutrition.fat !== null && (
-                      <span>
-                        ЖИРЫ
-                        <strong>
-                          {selectedItem.nutrition.fat}
-                        </strong>
-                      </span>
-                    )}
+                      {selectedItem.nutrition.protein !== null && (
+                        <span>
+                          БЕЛКИ
+                          <strong>
+                            {selectedItem.nutrition.protein}
+                          </strong>
+                        </span>
+                      )}
 
-                    {selectedItem.nutrition.carbohydrate !== null && (
-                      <span>
-                        УГЛЕВОДЫ
-                        <strong>
-                          {selectedItem.nutrition.carbohydrate}
-                        </strong>
-                      </span>
-                    )}
+                      {selectedItem.nutrition.fat !== null && (
+                        <span>
+                          ЖИРЫ
+                          <strong>
+                            {selectedItem.nutrition.fat}
+                          </strong>
+                        </span>
+                      )}
+
+                      {selectedItem.nutrition.carbohydrate !== null && (
+                        <span>
+                          УГЛЕВОДЫ
+                          <strong>
+                            {selectedItem.nutrition.carbohydrate}
+                          </strong>
+                        </span>
+                      )}
+                    </div>
                   </div>
                 )}
 
               <div className={styles.dishModalMeta}>
                 {selectedItem.displayWeight ? (
                   <span>
+                    ВЕС БЛЮДА ·{" "}
                     {selectedItem.displayWeight}
                   </span>
                 ) : (

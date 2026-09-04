@@ -59,7 +59,7 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] =
     useState(false);
   const [bookingOpen, setBookingOpen] =
-  useState(false); 
+    useState(false);
   const [mounted, setMounted] =
     useState(false);
 
@@ -290,38 +290,38 @@ export function SiteHeader() {
             )}
 
             <div className={styles.bookingWrap}>
-  <button
-    type="button"
-    className={styles.booking}
-    onClick={() =>
-      setBookingOpen((current) => !current)
-    }
-    aria-expanded={bookingOpen}
-  >
-    ЗАБРОНИРОВАТЬ
-  </button>
+              <button
+                type="button"
+                className={styles.booking}
+                onClick={() =>
+                  setBookingOpen((current) => !current)
+                }
+                aria-expanded={bookingOpen}
+              >
+                ЗАБРОНИРОВАТЬ
+              </button>
 
-  {bookingOpen && (
-    <div className={styles.bookingPopover}>
-      <span>БРОНИРОВАНИЕ</span>
+              {bookingOpen && (
+                <div className={styles.bookingPopover}>
+                  <span>БРОНИРОВАНИЕ</span>
 
-      <strong>
-        +7 923 030-11-77
-      </strong>
+                  <strong>
+                    +7 923 030-11-77
+                  </strong>
 
-      <button
-        type="button"
-        onClick={() =>
-          navigator.clipboard.writeText(
-            "+79230301177"
-          )
-        }
-      >
-        СКОПИРОВАТЬ НОМЕР
-      </button>
-    </div>
-  )}
-</div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        "+79230301177"
+                      )
+                    }
+                  >
+                    СКОПИРОВАТЬ НОМЕР
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* MOBILE BURGER */}
