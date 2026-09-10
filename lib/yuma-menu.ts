@@ -533,6 +533,70 @@ function buildCategoryTree(
  * getYumaMenu("delivery")
  * getYumaMenu("ginza")
  */
+
+async function fetchYumaMenuWithRetry(
+  url: string,
+  maxAttempts = 3
+): Promise<Response> {
+  let lastError: unknown = null;
+
+  for (
+    let attempt = 1;
+    attempt <= maxAttempts;
+    attempt++
+  ) {
+    try {
+      const response =
+        await yumaFetch(url);
+
+      const shouldRetry =
+        response.status === 408 ||
+        response.status === 429 ||
+        response.status >= 500;
+
+      if (
+        !shouldRetry ||
+        attempt === maxAttempts
+      ) {
+        return response;
+      }
+
+      console.warn(
+        `Yuma menu request retry ${attempt}/${maxAttempts}: HTTP ${response.status}`
+      );
+    } catch (error) {
+      lastError = error;
+
+      console.warn(
+        `Yuma menu request retry ${attempt}/${maxAttempts}:`,
+        error
+      );
+
+      if (attempt === maxAttempts) {
+        throw error;
+      }
+    }
+
+    const delayMs =
+      attempt === 1
+        ? 400
+        : 1000;
+
+    await new Promise<void>(
+      (resolve) => {
+        setTimeout(
+          resolve,
+          delayMs
+        );
+      }
+    );
+  }
+
+  throw lastError ??
+    new Error(
+      "Yuma menu request failed after retries"
+    );
+}
 export async function getYumaMenu(
   profile: YumaMenuProfile
 ): Promise<PublicYumaMenu> {
@@ -540,9 +604,9 @@ export async function getYumaMenu(
     getProfileSettings(profile);
 
   const response =
-    await yumaFetch(
-      `/open-api/v1/store/${settings.storeId}/menu`
-    );
+  await fetchYumaMenuWithRetry(
+    `/open-api/v1/store/${settings.storeId}/menu`
+  );
 
   if (!response.ok) {
     const errorText =
