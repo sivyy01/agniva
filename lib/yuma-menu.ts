@@ -1,5 +1,7 @@
 import "server-only";
 
+import { unstable_cache } from "next/cache";
+
 import { yumaFetch } from "@/lib/yuma";
 
 import {
@@ -597,7 +599,7 @@ async function fetchYumaMenuWithRetry(
       "Yuma menu request failed after retries"
     );
 }
-export async function getYumaMenu(
+async function getYumaMenuFresh(
   profile: YumaMenuProfile
 ): Promise<PublicYumaMenu> {
   const settings =
@@ -759,4 +761,28 @@ export async function getYumaMenu(
     categories:
       categoryTree,
   };
+}
+
+const getCachedYumaMenu =
+  unstable_cache(
+    async (
+      profile: YumaMenuProfile
+    ) =>
+      getYumaMenuFresh(profile),
+
+    [
+      "agniva-yuma-public-menu-v1",
+    ],
+
+    {
+      revalidate: 60,
+    }
+  );
+
+export async function getYumaMenu(
+  profile: YumaMenuProfile
+): Promise<PublicYumaMenu> {
+  return getCachedYumaMenu(
+    profile
+  );
 }
