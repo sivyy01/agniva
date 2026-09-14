@@ -23,7 +23,7 @@ const poiret = Poiret_One({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    "https://xn--80aafdz3a.art"
+    "https://agniva.art"
   ),
 
   title: {
@@ -97,7 +97,7 @@ const structuredData = {
   ],
 
   "@id":
-    "https://xn--80aafdz3a.art/#business",
+    "https://agniva.art/#business",
 
   name: "АГНИВА",
 
@@ -105,13 +105,13 @@ const structuredData = {
     "АГНИВА — рестобар и место дымной культуры в Новокузнецке.",
 
   url:
-    "https://xn--80aafdz3a.art",
+    "https://agniva.art",
 
   telephone:
     "+79230301177",
 
   image:
-    "https://xn--80aafdz3a.art/images/hero-bg.png",
+    "https://agniva.art/images/hero-bg.png",
 
   address: {
     "@type":
@@ -148,7 +148,7 @@ const structuredData = {
   ],
 
   hasMenu:
-    "https://xn--80aafdz3a.art/menu",
+    "https://agniva.art/menu",
 
   acceptsReservations: true,
 };

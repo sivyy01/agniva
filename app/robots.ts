@@ -13,8 +13,8 @@ export default function robots(): MetadataRoute.Robots {
       ],
     },
     sitemap:
-      "https://xn--80aafdz3a.art/sitemap.xml",
+      "https://agniva.art/sitemap.xml",
     host:
-      "https://xn--80aafdz3a.art",
+      "https://agniva.art",
   };
 }

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl =
-    "https://xn--80aafdz3a.art";
+  "https://agniva.art";
 
   return [
     {
