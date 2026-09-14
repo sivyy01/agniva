@@ -71,7 +71,10 @@ export const metadata: Metadata = {
   },
 
   verification: {
-  yandex: "0992e97012b13e53",
+  yandex: [
+    "0992e97012b13e53",
+    "9144f4e9263e97ff",
+  ],
 },
 
   robots: {
