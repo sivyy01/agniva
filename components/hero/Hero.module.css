@@ -9,7 +9,7 @@
       rgba(5, 5, 5, 0.22) 42%,
       rgba(5, 5, 5, 0.68) 72%,
       #050505 100%),
-    url("/images/hero-bg.png") 76% 20% / 108% auto no-repeat,
+    url("/images/hero-bg.webp") 76% 20% / 108% auto no-repeat,
     #050505;
 }
 
@@ -649,7 +649,7 @@
         rgba(5, 5, 5, 0.16) 44%,
         rgba(5, 5, 5, 0.48) 76%,
         #050505 100%),
-      url("/images/hero-bg.png") 82% 46% / cover no-repeat,
+      url("/images/hero-bg.webp") 82% 46% / cover no-repeat,
       #050505;
   }
 
@@ -818,7 +818,7 @@
         rgba(5, 5, 5, 0.16) 42%,
         rgba(5, 5, 5, 0.52) 74%,
         #050505 100%),
-      url("/images/hero-bg.png") center 20% / 100% auto no-repeat,
+      url("/images/hero-bg.webp") center 20% / 100% auto no-repeat,
       #050505;
   }
 

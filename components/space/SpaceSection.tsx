@@ -2,43 +2,43 @@ import styles from "./SpaceSection.module.css";
 
 const images = [
   {
-    src: "/images/space/space-01.png",
+    src: "/images/space/space-01.webp",
     alt: "Атмосфера Агнивы",
   },
   {
-    src: "/images/space/space-02.png",
+    src: "/images/space/space-02.webp",
     alt: "DJ в Агниве",
   },
   {
-    src: "/images/space/space-03.png",
+    src: "/images/space/space-03.webp",
     alt: "Интерьер Агнивы",
   },
   {
-    src: "/images/space/space-04.png",
+    src: "/images/space/space-04.webp",
     alt: "Бар Агнивы",
   },
   {
-    src: "/images/space/space-05.png",
+    src: "/images/space/space-05.webp",
     alt: "Кухня и бар Агнивы",
   },
   {
-    src: "/images/space/space-06.png",
+    src: "/images/space/space-06.webp",
     alt: "Барная эстетика Агнивы",
   },
   {
-    src: "/images/space/space-07.png",
+    src: "/images/space/space-07.webp",
     alt: "Дымная культура Агнивы",
   },
   {
-    src: "/images/space/space-08.png",
+    src: "/images/space/space-08.webp",
     alt: "Кухня Агнивы",
   },
   {
-    src: "/images/space/space-09.png",
+    src: "/images/space/space-09.webp",
     alt: "Пространство Агнивы",
   },
   {
-    src: "/images/space/space-10.png",
+    src: "/images/space/space-10.webp",
     alt: "Музыка в Агниве",
   },
 ];

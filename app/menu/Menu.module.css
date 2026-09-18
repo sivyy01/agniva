@@ -1732,7 +1732,7 @@ box-shadow:
   content: "";
   position: absolute;
   inset: 0;
-  background: url("/images/menu-embers.png") right center / cover no-repeat;
+  background: url("/images/menu-embers.webp") right center / cover no-repeat;
   filter: brightness(0.9) contrast(1.08) saturate(1.04);
 }
 .fireVisual::after {
