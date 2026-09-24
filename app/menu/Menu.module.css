@@ -1019,7 +1019,7 @@
 
   background-color: #0b0b0b;
 
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 
@@ -1444,7 +1444,7 @@ box-shadow:
   height: 190px;
   aspect-ratio: auto;
 
-  background-size: cover;
+  background-size: contain;
   background-position: center;
 }
 
