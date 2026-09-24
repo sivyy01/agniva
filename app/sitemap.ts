@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl =
-  "https://agniva.art";
+    "https://agniva.art";
 
   return [
     {
@@ -12,6 +12,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/menu`,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/delivery`,
       changeFrequency: "daily",
       priority: 0.9,
     },

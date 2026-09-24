@@ -47,14 +47,9 @@ export const metadata: Metadata = {
     "куда сходить Новокузнецк",
   ],
 
-  alternates: {
-    canonical: "/",
-  },
-
   openGraph: {
     type: "website",
     locale: "ru_RU",
-    url: "/",
     siteName: "АГНИВА",
     title:
       "АГНИВА — место дымной культуры в Новокузнецке",
@@ -71,11 +66,11 @@ export const metadata: Metadata = {
   },
 
   verification: {
-  yandex: [
-    "0992e97012b13e53",
-    "9144f4e9263e97ff",
-  ],
-},
+    yandex: [
+      "0992e97012b13e53",
+      "9144f4e9263e97ff",
+    ],
+  },
 
   robots: {
     index: true,
